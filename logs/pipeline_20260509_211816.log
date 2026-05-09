@@ -1,0 +1,51 @@
+2026-05-09 21:18:16 | INFO     | __main__ | ============================================================
+2026-05-09 21:18:16 | INFO     | __main__ |   🚀 STAGE: DATA VALIDATION — ETL
+2026-05-09 21:18:16 | INFO     | __main__ |   ⏰ Time : 2026-05-09 21:18:16
+2026-05-09 21:18:16 | INFO     | __main__ | ============================================================
+2026-05-09 21:18:16 | INFO     | __main__ | 📥 EXTRACT — Reading from breast_cancer_raw...
+2026-05-09 21:18:16 | INFO     | __main__ | ✅ Extracted 4023 rows from breast_cancer_raw
+2026-05-09 21:18:16 | INFO     | __main__ | 🔄 TRANSFORM — Running validation checks...
+2026-05-09 21:18:16 | INFO     | __main__ | 🔍 CHECK 1 — Schema Validation...
+2026-05-09 21:18:16 | INFO     | __main__ | ✅ Schema valid — all 16 columns present
+2026-05-09 21:18:16 | INFO     | __main__ | 🔍 CHECK 2 — Null Values...
+2026-05-09 21:18:16 | INFO     | __main__ | ✅ No null values found
+2026-05-09 21:18:16 | INFO     | __main__ | 🔍 CHECK 3 — Duplicate Rows...
+2026-05-09 21:18:16 | INFO     | __main__ | ✅ No duplicate rows found
+2026-05-09 21:18:16 | INFO     | __main__ | 🔍 CHECK 4 — Class Imbalance (status)...
+2026-05-09 21:18:16 | INFO     | __main__ |    Alive: 3407 (84.7%)
+2026-05-09 21:18:16 | INFO     | __main__ |    Dead: 616 (15.3%)
+2026-05-09 21:18:16 | WARNING  | __main__ | ⚠️  Imbalanced — minority class 15.3% → SMOTE needed
+2026-05-09 21:18:16 | INFO     | __main__ | 🔍 CHECK 5 — Skewness...
+2026-05-09 21:18:16 | INFO     | __main__ | ✅ age skewness OK: -0.22
+2026-05-09 21:18:16 | WARNING  | __main__ | ⚠️  tumor_size highly skewed: 1.74
+2026-05-09 21:18:16 | INFO     | __main__ | ✅ regional_node_examined skewness OK: 0.83
+2026-05-09 21:18:16 | WARNING  | __main__ | ⚠️  regional_node_positive highly skewed: 2.7
+2026-05-09 21:18:16 | INFO     | __main__ | ✅ survival_months skewness OK: -0.59
+2026-05-09 21:18:16 | INFO     | __main__ | 🔍 CHECK 6 — Outliers (IQR method)...
+2026-05-09 21:18:16 | WARNING  | __main__ | ⚠️  tumor_size: 222 outliers | bounds [-17.0, 71.0]
+2026-05-09 21:18:16 | WARNING  | __main__ | ⚠️  regional_node_examined: 72 outliers | bounds [-6.0, 34.0]
+2026-05-09 21:18:16 | WARNING  | __main__ | ⚠️  regional_node_positive: 344 outliers | bounds [-5.0, 11.0]
+2026-05-09 21:18:16 | INFO     | __main__ | 🔍 CHECK 7 — Data Types...
+2026-05-09 21:18:16 | INFO     | __main__ | ✅ age is numeric ✓
+2026-05-09 21:18:16 | INFO     | __main__ | ✅ tumor_size is numeric ✓
+2026-05-09 21:18:16 | INFO     | __main__ | ✅ regional_node_examined is numeric ✓
+2026-05-09 21:18:16 | INFO     | __main__ | ✅ regional_node_positive is numeric ✓
+2026-05-09 21:18:16 | INFO     | __main__ | ✅ survival_months is numeric ✓
+2026-05-09 21:18:16 | WARNING  | __main__ | ⚠️  race should be categorical but is str
+2026-05-09 21:18:16 | WARNING  | __main__ | ⚠️  marital_status should be categorical but is str
+2026-05-09 21:18:16 | WARNING  | __main__ | ⚠️  t_stage should be categorical but is str
+2026-05-09 21:18:16 | WARNING  | __main__ | ⚠️  n_stage should be categorical but is str
+2026-05-09 21:18:16 | WARNING  | __main__ | ⚠️  sixth_stage should be categorical but is str
+2026-05-09 21:18:16 | WARNING  | __main__ | ⚠️  differentiate should be categorical but is str
+2026-05-09 21:18:16 | WARNING  | __main__ | ⚠️  grade should be categorical but is str
+2026-05-09 21:18:16 | WARNING  | __main__ | ⚠️  a_stage should be categorical but is str
+2026-05-09 21:18:16 | WARNING  | __main__ | ⚠️  estrogen_status should be categorical but is str
+2026-05-09 21:18:16 | WARNING  | __main__ | ⚠️  progesterone_status should be categorical but is str
+2026-05-09 21:18:16 | WARNING  | __main__ | ⚠️  status should be categorical but is str
+2026-05-09 21:18:16 | INFO     | __main__ | 🔍 CHECK 8 — Survival Months...
+2026-05-09 21:18:16 | WARNING  | __main__ | ⚠️  survival_months EXISTS → will be dropped in transform.py
+2026-05-09 21:18:16 | INFO     | __main__ | 💾 LOAD — Saving validation report to logs/...
+2026-05-09 21:18:16 | INFO     | __main__ | ✅ Validation report saved → /home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/src/data_validation/../../logs/validation_report_20260509_211816.json
+2026-05-09 21:18:16 | INFO     | __main__ | ✅ DATA VALIDATION ETL COMPLETED ✅
+2026-05-09 21:18:16 | INFO     | __main__ |    → Check logs/ for validation_report.json
+2026-05-09 21:18:16 | INFO     | __main__ |    → Ready for transform.py
