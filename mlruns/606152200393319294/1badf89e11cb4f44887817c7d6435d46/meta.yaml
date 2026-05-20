@@ -1,0 +1,15 @@
+artifact_uri: /home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/mlruns/606152200393319294/1badf89e11cb4f44887817c7d6435d46/artifacts
+deleted_time: 1778911626821
+end_time: 1778909178130
+entry_point_name: ''
+experiment_id: '606152200393319294'
+lifecycle_stage: deleted
+run_id: 1badf89e11cb4f44887817c7d6435d46
+run_name: logistic_regression
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1778909174724
+status: 3
+tags: []
+user_id: jibach

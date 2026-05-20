@@ -1,0 +1,22 @@
+# ══════════════════════════════════════════════════════
+# DATABASE CONFIGURATION
+# ══════════════════════════════════════════════════════
+
+database:
+  host:     localhost
+  port:     3306
+  name:     breast_cancer_db
+  user:     bc_user
+  password: bc_password123
+  pool_size: 5
+  max_overflow: 10
+  pool_timeout: 30
+
+tables:
+  raw:       breast_cancer_raw
+  processed: breast_cancer_processed
+
+connection:
+  driver:   mysql+pymysql
+  charset:  utf8mb4
+  echo:     false        # set true to see SQL queries in logs

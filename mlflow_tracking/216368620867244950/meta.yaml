@@ -1,0 +1,8 @@
+artifact_location: /home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/mlflow_tracking/216368620867244950
+creation_time: 1778909600267
+experiment_id: '216368620867244950'
+last_update_time: 1778909600267
+lifecycle_stage: active
+name: breast_cancer_prediction
+trace_location: null
+workspace: default

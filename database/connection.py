@@ -1,10 +1,9 @@
 from sqlalchemy import create_engine, text
+import sys
+import os
 
-DB_USER = "bc_user"
-DB_PASS = "bc_password123"
-DB_HOST = "localhost"
-DB_PORT = 3306
-DB_NAME = "breast_cancer_db"
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from src.constants import DB_USER, DB_PASS, DB_HOST, DB_PORT, DB_NAME
 
 def get_engine():
     url = f"mysql+pymysql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
@@ -19,3 +18,4 @@ def test_connection():
 
 if __name__ == "__main__":
     test_connection()
+    

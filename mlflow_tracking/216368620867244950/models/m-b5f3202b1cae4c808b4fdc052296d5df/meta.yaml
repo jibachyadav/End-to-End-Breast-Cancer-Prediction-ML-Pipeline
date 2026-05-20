@@ -1,0 +1,10 @@
+artifact_location: /home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/mlflow_tracking/216368620867244950/models/m-b5f3202b1cae4c808b4fdc052296d5df/artifacts
+creation_timestamp: 1778911017970
+experiment_id: '216368620867244950'
+last_updated_timestamp: 1778911020911
+model_id: m-b5f3202b1cae4c808b4fdc052296d5df
+model_type: null
+name: logistic_regression
+source_run_id: 8a6c1b679fac4f198241a124c56c84b2
+status: 2
+status_message: null
