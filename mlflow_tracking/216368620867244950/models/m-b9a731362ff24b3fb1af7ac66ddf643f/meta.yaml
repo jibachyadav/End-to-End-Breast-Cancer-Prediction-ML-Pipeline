@@ -1,0 +1,10 @@
+artifact_location: /home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/mlflow_tracking/216368620867244950/models/m-b9a731362ff24b3fb1af7ac66ddf643f/artifacts
+creation_timestamp: 1778909625904
+experiment_id: '216368620867244950'
+last_updated_timestamp: 1778909628233
+model_id: m-b9a731362ff24b3fb1af7ac66ddf643f
+model_type: null
+name: svm
+source_run_id: ec10a45d516d4db79d84593479afa50c
+status: 2
+status_message: null

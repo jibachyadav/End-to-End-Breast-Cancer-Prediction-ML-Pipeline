@@ -1,0 +1,298 @@
+2026-05-16 11:41:56 | INFO     | __main__ | ============================================================
+2026-05-16 11:41:56 | INFO     | __main__ | 🚀 TRAINING PIPELINE STARTED
+2026-05-16 11:41:56 | INFO     | __main__ | ⏰ 2026-05-16 11:41:56
+2026-05-16 11:41:56 | INFO     | __main__ | ============================================================
+2026-05-16 11:41:56 | INFO     | __main__ | ============================================================
+2026-05-16 11:41:56 | INFO     | __main__ |   🚀 STAGE: STAGE 1 — DATA INGESTION
+2026-05-16 11:41:56 | INFO     | __main__ |   ⏰ Time : 2026-05-16 11:41:56
+2026-05-16 11:41:56 | INFO     | __main__ | ============================================================
+2026-05-16 11:41:56 | INFO     | src.data_ingestion.ingest | ============================================================
+2026-05-16 11:41:56 | INFO     | src.data_ingestion.ingest |   🚀 STAGE: DATA INGESTION — ETL
+2026-05-16 11:41:56 | INFO     | src.data_ingestion.ingest |   ⏰ Time : 2026-05-16 11:41:56
+2026-05-16 11:41:56 | INFO     | src.data_ingestion.ingest | ============================================================
+2026-05-16 11:41:56 | INFO     | src.data_ingestion.ingest | 📥 EXTRACT — Reading CSV from disk...
+2026-05-16 11:41:56 | INFO     | src.data_ingestion.ingest | ✅ Extracted 4024 rows, 16 columns
+2026-05-16 11:41:56 | INFO     | src.data_ingestion.ingest |    Columns: ['Age', 'Race', 'Marital Status', 'T Stage ', 'N Stage', '6th Stage', 'differentiate', 'Grade', 'A Stage', 'Tumor Size', 'Estrogen Status', 'Progesterone Status', 'Regional Node Examined', 'Reginol Node Positive', 'Survival Months', 'Status']
+2026-05-16 11:41:56 | INFO     | src.data_ingestion.ingest | 🔄 TRANSFORM — Cleaning for raw load...
+2026-05-16 11:41:56 | WARNING  | src.data_ingestion.ingest | ⚠️  Dropped 1 duplicate rows
+2026-05-16 11:41:56 | INFO     | src.data_ingestion.ingest | ✅ No null values found
+2026-05-16 11:41:56 | INFO     | src.data_ingestion.ingest | ✅ Transform complete — 4023 rows ready for load
+2026-05-16 11:41:56 | INFO     | src.data_ingestion.ingest | 💾 LOAD — Pushing data to breast_cancer_raw...
+2026-05-16 11:41:56 | INFO     | src.data_ingestion.ingest | ✅ Loaded 4023 rows into breast_cancer_raw
+2026-05-16 11:41:56 | INFO     | src.data_ingestion.ingest | ✅ Verified — breast_cancer_raw has 4023 rows in DB
+2026-05-16 11:41:56 | INFO     | src.data_ingestion.ingest | ✅ ETL PIPELINE COMPLETED SUCCESSFULLY 🎉
+2026-05-16 11:41:56 | INFO     | __main__ | ✅ Stage 1 Complete ✅
+2026-05-16 11:41:56 | INFO     | __main__ | ============================================================
+2026-05-16 11:41:56 | INFO     | __main__ |   🚀 STAGE: STAGE 2 — DATA VALIDATION
+2026-05-16 11:41:56 | INFO     | __main__ |   ⏰ Time : 2026-05-16 11:41:56
+2026-05-16 11:41:56 | INFO     | __main__ | ============================================================
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ============================================================
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate |   🚀 STAGE: DATA VALIDATION — ETL
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate |   ⏰ Time : 2026-05-16 11:41:56
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ============================================================
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | 📥 EXTRACT — Reading from breast_cancer_raw...
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ Extracted 4023 rows from breast_cancer_raw
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | 🔄 TRANSFORM — Running validation checks...
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | 🔍 CHECK 1 — Schema...
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ Schema valid — all 16 columns present
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | 🔍 CHECK 2 — Nulls...
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ No null values found
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | 🔍 CHECK 3 — Duplicates...
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ No duplicates found
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | 🔍 CHECK 4 — Class Imbalance...
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate |    Alive: 3407 (84.7%)
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate |    Dead: 616 (15.3%)
+2026-05-16 11:41:56 | WARNING  | src.data_validation.validate | ⚠️  Imbalanced — 15.3% minority → SMOTE needed
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | 🔍 CHECK 5 — Skewness...
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ age skewness OK: -0.22
+2026-05-16 11:41:56 | WARNING  | src.data_validation.validate | ⚠️  tumor_size highly skewed: 1.74
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ regional_node_examined skewness OK: 0.83
+2026-05-16 11:41:56 | WARNING  | src.data_validation.validate | ⚠️  regional_node_positive highly skewed: 2.7
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ survival_months skewness OK: -0.59
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | 🔍 CHECK 6 — Outliers...
+2026-05-16 11:41:56 | WARNING  | src.data_validation.validate | ⚠️  tumor_size: 222 outliers | [-17.0, 71.0]
+2026-05-16 11:41:56 | WARNING  | src.data_validation.validate | ⚠️  regional_node_examined: 72 outliers | [-6.0, 34.0]
+2026-05-16 11:41:56 | WARNING  | src.data_validation.validate | ⚠️  regional_node_positive: 344 outliers | [-5.0, 11.0]
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | 🔍 CHECK 7 — Data Types...
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ age is numeric ✓
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ tumor_size is numeric ✓
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ regional_node_examined is numeric ✓
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ regional_node_positive is numeric ✓
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ survival_months is numeric ✓
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ race is categorical ✓
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ marital_status is categorical ✓
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ t_stage is categorical ✓
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ n_stage is categorical ✓
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ sixth_stage is categorical ✓
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ differentiate is categorical ✓
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ grade is categorical ✓
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ a_stage is categorical ✓
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ estrogen_status is categorical ✓
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ progesterone_status is categorical ✓
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ status is categorical ✓
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | 🔍 CHECK 8 — Survival Months...
+2026-05-16 11:41:56 | WARNING  | src.data_validation.validate | ⚠️  survival_months EXISTS → will be dropped in transform.py
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | 💾 LOAD — Saving validation report...
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ Validation report saved → /home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/src/pipeline/../../src/constants/../../logs/validation_report_20260516_114156.json
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate | ✅ DATA VALIDATION ETL COMPLETED ✅
+2026-05-16 11:41:56 | INFO     | src.data_validation.validate |    → Ready for transform.py
+2026-05-16 11:41:56 | INFO     | __main__ | ✅ Stage 2 Complete ✅
+2026-05-16 11:41:56 | INFO     | __main__ | ============================================================
+2026-05-16 11:41:56 | INFO     | __main__ |   🚀 STAGE: STAGE 3 — DATA TRANSFORMATION
+2026-05-16 11:41:56 | INFO     | __main__ |   ⏰ Time : 2026-05-16 11:41:56
+2026-05-16 11:41:56 | INFO     | __main__ | ============================================================
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | ============================================================
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform |   🚀 STAGE: DATA TRANSFORMATION — ETL
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform |   ⏰ Time : 2026-05-16 11:41:56
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | ============================================================
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | 📥 EXTRACT — Reading from breast_cancer_raw...
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | ✅ Extracted 4023 rows from breast_cancer_raw
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | 🔄 TRANSFORM — Applying all cleaning steps...
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | 📌 STEP 1 — Dropping ['survival_months']...
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | ✅ ['survival_months'] dropped
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | 📌 STEP 2 — Removing outliers (IQR)...
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | ✅ tumor_size outliers removed | [-17.0, 71.0]
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | ✅ regional_node_examined outliers removed | [-6.0, 34.0]
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | ✅ regional_node_positive outliers removed | [-3.5, 8.5]
+2026-05-16 11:41:56 | WARNING  | src.data_transformation.transform | ⚠️  Removed 739 outlier rows | 3284 remaining
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | 📌 STEP 3 — Fixing skewness (log transform)...
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | ✅ tumor_size log transformed | new skew: -0.40
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | ✅ regional_node_positive log transformed | new skew: 0.74
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | 📌 STEP 4 — Label encoding...
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | ✅ race encoded | 3 unique values
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | ✅ marital_status encoded | 5 unique values
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | ✅ t_stage encoded | 4 unique values
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | ✅ n_stage encoded | 3 unique values
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | ✅ sixth_stage encoded | 5 unique values
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | ✅ differentiate encoded | 4 unique values
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | ✅ grade encoded | 4 unique values
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | ✅ a_stage encoded | 2 unique values
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | ✅ estrogen_status encoded | 2 unique values
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | ✅ progesterone_status encoded | 2 unique values
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | 📌 STEP 5 — Encoding target...
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | ✅ status encoded | {'Alive': 1, 'Dead': 0}
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | 📌 STEP 6 — SMOTE...
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform |    Before SMOTE: {1: 2901, 0: 383}
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform |    After SMOTE:  {1: 2901, 0: 2901}
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | ✅ SMOTE applied | 5802 rows
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | ✅ TRANSFORM complete — 5802 rows, 15 columns
+2026-05-16 11:41:56 | INFO     | src.data_transformation.transform | 💾 LOAD — Saving to breast_cancer_processed...
+2026-05-16 11:41:57 | INFO     | src.data_transformation.transform | ✅ Loaded 5802 rows into breast_cancer_processed
+2026-05-16 11:41:57 | INFO     | src.data_transformation.transform | ✅ Verified — breast_cancer_processed has 5802 rows
+2026-05-16 11:41:57 | INFO     | src.data_transformation.transform | ✅ DATA TRANSFORMATION ETL COMPLETED ✅
+2026-05-16 11:41:57 | INFO     | src.data_transformation.transform |    → Ready for engineering.py
+2026-05-16 11:41:57 | INFO     | __main__ | ✅ Stage 3 Complete ✅
+2026-05-16 11:41:57 | INFO     | __main__ | ============================================================
+2026-05-16 11:41:57 | INFO     | __main__ |   🚀 STAGE: STAGE 4 — FEATURE ENGINEERING
+2026-05-16 11:41:57 | INFO     | __main__ |   ⏰ Time : 2026-05-16 11:41:57
+2026-05-16 11:41:57 | INFO     | __main__ | ============================================================
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering | ============================================================
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering |   🚀 STAGE: FEATURE ENGINEERING — ETL
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering |   ⏰ Time : 2026-05-16 11:41:57
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering | ============================================================
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering | 📥 EXTRACT — Reading from breast_cancer_processed...
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering | ✅ Extracted 5802 rows from breast_cancer_processed
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering | 🔄 TRANSFORM — Feature engineering...
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering | 📌 STEP 1 — Splitting features and target...
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering | ✅ Features: (5802, 14) | Target: (5802,)
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering | 📌 STEP 2 — Selecting top 10 features...
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering |    Feature scores:
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering |    progesterone_status            score: 782.58
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering |    estrogen_status                score: 334.76
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering |    differentiate                  score: 233.14
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering |    tumor_size                     score: 153.12
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering |    regional_node_positive         score: 134.68
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering |    race                           score: 81.76
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering |    regional_node_examined         score: 50.83
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering |    marital_status                 score: 40.56
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering |    age                            score: 38.52
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering |    a_stage                        score: 28.34
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering | ✅ Selected features: ['age', 'race', 'marital_status', 'differentiate', 'a_stage', 'tumor_size', 'estrogen_status', 'progesterone_status', 'regional_node_examined', 'regional_node_positive']
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering | 📌 STEP 3 — Train/Test split...
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering | ✅ Train: 4641 | Test: 1161
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering | 📌 STEP 4 — Scaling features...
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering | ✅ Features scaled successfully
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering | 💾 LOAD — Saving artifacts...
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering | ✅ Train/Test splits saved
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering | ✅ scaler.pkl saved → /home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/src/pipeline/../../src/constants/../../artifacts/encoders/scaler.pkl
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering | ✅ selector.pkl saved → /home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/src/pipeline/../../src/constants/../../artifacts/encoders/selector.pkl
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering | ✅ selected_features.pkl saved → /home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/src/pipeline/../../src/constants/../../artifacts/encoders/selected_features.pkl
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering | ✅ FEATURE ENGINEERING ETL COMPLETED ✅
+2026-05-16 11:41:57 | INFO     | src.feature_engineering.engineering |    → Ready for train.py
+2026-05-16 11:41:57 | INFO     | __main__ | ✅ Stage 4 Complete ✅
+2026-05-16 11:41:57 | INFO     | __main__ | ============================================================
+2026-05-16 11:41:57 | INFO     | __main__ |   🚀 STAGE: STAGE 5 — MODEL TRAINING
+2026-05-16 11:41:57 | INFO     | __main__ |   ⏰ Time : 2026-05-16 11:41:57
+2026-05-16 11:41:57 | INFO     | __main__ | ============================================================
+2026-05-16 11:41:57 | INFO     | src.model_training.train | ============================================================
+2026-05-16 11:41:57 | INFO     | src.model_training.train |   🚀 STAGE: MODEL TRAINING — ETL + MLflow
+2026-05-16 11:41:57 | INFO     | src.model_training.train |   ⏰ Time : 2026-05-16 11:41:57
+2026-05-16 11:41:57 | INFO     | src.model_training.train | ============================================================
+2026-05-16 11:41:57 | INFO     | src.model_training.train | 📥 EXTRACT — Reading train/test artifacts...
+2026-05-16 11:41:57 | INFO     | src.model_training.train | ✅ X_train: (4641, 10) | X_test: (1161, 10)
+2026-05-16 11:41:57 | INFO     | src.model_training.train | ✅ y_train: (4641,) | y_test: (1161,)
+2026-05-16 11:41:57 | INFO     | src.model_training.train | 🔄 TRANSFORM — Training all models with MLflow tracking...
+2026-05-16 11:41:57 | INFO     | src.model_training.train | 📌 Training → logistic_regression
+2026-05-16 11:42:00 | INFO     | src.model_training.train |    Metric          Train     Test      Gap
+2026-05-16 11:42:00 | INFO     | src.model_training.train |    ----------------------------------------
+2026-05-16 11:42:00 | INFO     | src.model_training.train |    accuracy       0.6908   0.7252  -0.0344
+2026-05-16 11:42:00 | INFO     | src.model_training.train |    f1             0.6987   0.7271  -0.0284
+2026-05-16 11:42:00 | INFO     | src.model_training.train |    precision      0.6814   0.7216  -0.0402
+2026-05-16 11:42:00 | INFO     | src.model_training.train |    recall         0.7169   0.7328  -0.0159
+2026-05-16 11:42:00 | INFO     | src.model_training.train |    CV f1: 0.6989 ± 0.0057
+2026-05-16 11:42:00 | INFO     | src.model_training.train |    Diagnosis: ⚠️  UNDERFIT  — both scores below 0.8
+2026-05-16 11:42:00 | INFO     | src.model_training.train | 
+2026-05-16 11:42:00 | INFO     | src.model_training.train | 📌 Training → random_forest
+2026-05-16 11:42:05 | INFO     | src.model_training.train |    Metric          Train     Test      Gap
+2026-05-16 11:42:05 | INFO     | src.model_training.train |    ----------------------------------------
+2026-05-16 11:42:05 | INFO     | src.model_training.train |    accuracy       0.9235   0.8803  +0.0432
+2026-05-16 11:42:05 | INFO     | src.model_training.train |    f1             0.9241   0.8782  +0.0459
+2026-05-16 11:42:05 | INFO     | src.model_training.train |    precision      0.9169   0.8930  +0.0239
+2026-05-16 11:42:05 | INFO     | src.model_training.train |    recall         0.9315   0.8638  +0.0677
+2026-05-16 11:42:05 | INFO     | src.model_training.train |    CV f1: 0.8539 ± 0.0120
+2026-05-16 11:42:05 | INFO     | src.model_training.train |    Diagnosis: ✅ GOOD FIT  — train/test gap: 0.0432
+2026-05-16 11:42:05 | INFO     | src.model_training.train | 
+2026-05-16 11:42:05 | INFO     | src.model_training.train | 📌 Training → xgboost
+2026-05-16 11:42:08 | INFO     | src.model_training.train |    Metric          Train     Test      Gap
+2026-05-16 11:42:08 | INFO     | src.model_training.train |    ----------------------------------------
+2026-05-16 11:42:08 | INFO     | src.model_training.train |    accuracy       0.9429   0.9156  +0.0273
+2026-05-16 11:42:08 | INFO     | src.model_training.train |    f1             0.9448   0.9165  +0.0283
+2026-05-16 11:42:08 | INFO     | src.model_training.train |    precision      0.9149   0.9057  +0.0092
+2026-05-16 11:42:08 | INFO     | src.model_training.train |    recall         0.9767   0.9276  +0.0491
+2026-05-16 11:42:08 | INFO     | src.model_training.train |    CV f1: 0.8918 ± 0.0058
+2026-05-16 11:42:08 | INFO     | src.model_training.train |    Diagnosis: ✅ GOOD FIT  — train/test gap: 0.0273
+2026-05-16 11:42:08 | INFO     | src.model_training.train | 
+2026-05-16 11:42:08 | INFO     | src.model_training.train | 📌 Training → svm
+2026-05-16 11:42:24 | INFO     | src.model_training.train |    Metric          Train     Test      Gap
+2026-05-16 11:42:24 | INFO     | src.model_training.train |    ----------------------------------------
+2026-05-16 11:42:24 | INFO     | src.model_training.train |    accuracy       0.7727   0.7769  -0.0042
+2026-05-16 11:42:24 | INFO     | src.model_training.train |    f1             0.7754   0.7746  +0.0008
+2026-05-16 11:42:24 | INFO     | src.model_training.train |    precision      0.7664   0.7821  -0.0157
+2026-05-16 11:42:24 | INFO     | src.model_training.train |    recall         0.7846   0.7672  +0.0174
+2026-05-16 11:42:24 | INFO     | src.model_training.train |    CV f1: 0.7395 ± 0.0126
+2026-05-16 11:42:24 | INFO     | src.model_training.train |    Diagnosis: ⚠️  UNDERFIT  — both scores below 0.8
+2026-05-16 11:42:24 | INFO     | src.model_training.train | 
+2026-05-16 11:42:24 | INFO     | src.model_training.train | =======================================================
+2026-05-16 11:42:24 | INFO     | src.model_training.train | ✅ 🏆 Best model: xgboost | CV f1: 0.8918
+2026-05-16 11:42:24 | INFO     | src.model_training.train | =======================================================
+2026-05-16 11:42:24 | INFO     | src.model_training.train | 💾 LOAD — Saving models and metrics...
+2026-05-16 11:42:24 | INFO     | src.model_training.train | ✅ logistic_regression.pkl saved | CV f1: 0.6989
+2026-05-16 11:42:24 | INFO     | src.model_training.train | ✅ random_forest.pkl saved | CV f1: 0.8539
+2026-05-16 11:42:24 | INFO     | src.model_training.train | ✅ xgboost.pkl saved | CV f1: 0.8918
+2026-05-16 11:42:24 | INFO     | src.model_training.train | ✅ svm.pkl saved | CV f1: 0.7395
+2026-05-16 11:42:24 | INFO     | src.model_training.train | ✅ best_model.pkl saved → xgboost
+2026-05-16 11:42:24 | INFO     | src.model_training.train | ✅ train_test_comparison.json saved
+2026-05-16 11:42:24 | INFO     | src.model_training.train | 
+=====================================================================================
+2026-05-16 11:42:24 | INFO     | src.model_training.train | Model                        CV F1  Train Acc   Test Acc      Gap Diagnosis
+2026-05-16 11:42:24 | INFO     | src.model_training.train | =====================================================================================
+2026-05-16 11:42:24 | INFO     | src.model_training.train | logistic_regression         0.6989     0.6908     0.7252  -0.0344  ⚠️  UNDERFIT
+2026-05-16 11:42:24 | INFO     | src.model_training.train | random_forest               0.8539     0.9235     0.8803  +0.0432  ✅ GOOD FIT
+2026-05-16 11:42:24 | INFO     | src.model_training.train | xgboost                     0.8918     0.9429     0.9156  +0.0273  ✅ GOOD FIT 🏆
+2026-05-16 11:42:24 | INFO     | src.model_training.train | svm                         0.7395     0.7727     0.7769  -0.0042  ⚠️  UNDERFIT
+2026-05-16 11:42:24 | INFO     | src.model_training.train | =====================================================================================
+2026-05-16 11:42:24 | INFO     | src.model_training.train | ✅ MODEL TRAINING ETL COMPLETED ✅
+2026-05-16 11:42:24 | INFO     | src.model_training.train |    → Models saved to artifacts/models/
+2026-05-16 11:42:24 | INFO     | src.model_training.train |    → Metrics saved to artifacts/metrics/
+2026-05-16 11:42:24 | INFO     | src.model_training.train |    → Run 'mlflow ui' to view experiments
+2026-05-16 11:42:24 | INFO     | src.model_training.train |    → Ready for evaluate.py
+2026-05-16 11:42:24 | INFO     | __main__ | ✅ Stage 5 Complete ✅
+2026-05-16 11:42:24 | INFO     | __main__ | ============================================================
+2026-05-16 11:42:24 | INFO     | __main__ |   🚀 STAGE: STAGE 6 — MODEL EVALUATION
+2026-05-16 11:42:24 | INFO     | __main__ |   ⏰ Time : 2026-05-16 11:42:24
+2026-05-16 11:42:24 | INFO     | __main__ | ============================================================
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | ============================================================
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate |   🚀 STAGE: MODEL EVALUATION — ETL
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate |   ⏰ Time : 2026-05-16 11:42:24
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | ============================================================
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | 📥 EXTRACT — Reading model and test artifacts...
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | ✅ Model loaded   : xgboost
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | ✅ X_test: (1161, 10) | y_test: (1161,)
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | 🔄 TRANSFORM — Evaluating model...
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | 📌 STEP 1 — Generating predictions...
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | ✅ Predictions generated: 1161 samples
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | 📌 STEP 2 — Calculating metrics...
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | ✅ accuracy    : 0.9156
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | ✅ precision   : 0.9057
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | ✅ recall      : 0.9276
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | ✅ f1_score    : 0.9165
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | ✅ roc_auc     : 0.9623
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | 📌 STEP 3 — Confusion matrix...
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate |    Confusion Matrix:
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate |    TN=525  FP=56
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate |    FN=42  TP=538
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | ✅ True Positives  (Dead correctly predicted)  : 538
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | ✅ True Negatives  (Alive correctly predicted) : 525
+2026-05-16 11:42:24 | WARNING  | src.model_evaluation.evaluate | ⚠️  False Positives (Alive predicted as Dead)   : 56
+2026-05-16 11:42:24 | WARNING  | src.model_evaluation.evaluate | ⚠️  False Negatives (Dead predicted as Alive)   : 42
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | 📌 STEP 4 — Classification report...
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | 
+              precision    recall  f1-score   support
+
+        Dead       0.93      0.90      0.91       581
+       Alive       0.91      0.93      0.92       580
+
+    accuracy                           0.92      1161
+   macro avg       0.92      0.92      0.92      1161
+weighted avg       0.92      0.92      0.92      1161
+
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | 💾 LOAD — Saving evaluation report...
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | ✅ Evaluation report saved → /home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/src/pipeline/../../src/constants/../../logs/evaluation_report_20260516_114224.json
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | 
+=======================================================
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate |    📊 FINAL EVALUATION SUMMARY
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | =======================================================
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate |    accuracy    : 0.9156
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate |    precision   : 0.9057
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate |    recall      : 0.9276
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate |    f1_score    : 0.9165
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate |    roc_auc     : 0.9623
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | =======================================================
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate | ✅ MODEL EVALUATION ETL COMPLETED ✅
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate |    → Report saved to logs/
+2026-05-16 11:42:24 | INFO     | src.model_evaluation.evaluate |    → Ready for predict.py
+2026-05-16 11:42:24 | INFO     | __main__ | ✅ Stage 6 Complete ✅
+2026-05-16 11:42:24 | INFO     | __main__ | ============================================================
+2026-05-16 11:42:24 | INFO     | __main__ | ✅ 🎉 TRAINING PIPELINE COMPLETED SUCCESSFULLY!
+2026-05-16 11:42:24 | INFO     | __main__ | ⏰ 2026-05-16 11:42:24
+2026-05-16 11:42:24 | INFO     | __main__ | ============================================================

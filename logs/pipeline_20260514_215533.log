@@ -1,0 +1,33 @@
+2026-05-14 21:55:33 | INFO     | __main__ | ============================================================
+2026-05-14 21:55:33 | INFO     | __main__ |   🚀 STAGE: FEATURE ENGINEERING — ETL
+2026-05-14 21:55:33 | INFO     | __main__ |   ⏰ Time : 2026-05-14 21:55:33
+2026-05-14 21:55:33 | INFO     | __main__ | ============================================================
+2026-05-14 21:55:33 | INFO     | __main__ | 📥 EXTRACT — Reading from breast_cancer_processed...
+2026-05-14 21:55:33 | INFO     | __main__ | ✅ Extracted 5802 rows from breast_cancer_processed
+2026-05-14 21:55:33 | INFO     | __main__ | 🔄 TRANSFORM — Feature engineering...
+2026-05-14 21:55:33 | INFO     | __main__ | 📌 STEP 1 — Splitting features and target...
+2026-05-14 21:55:33 | INFO     | __main__ | ✅ Features: (5802, 14) | Target: (5802,)
+2026-05-14 21:55:33 | INFO     | __main__ | 📌 STEP 2 — Selecting top 10 features...
+2026-05-14 21:55:33 | INFO     | __main__ |    Feature scores:
+2026-05-14 21:55:33 | INFO     | __main__ |    progesterone_status            score: 782.58
+2026-05-14 21:55:33 | INFO     | __main__ |    estrogen_status                score: 334.76
+2026-05-14 21:55:33 | INFO     | __main__ |    differentiate                  score: 233.14
+2026-05-14 21:55:33 | INFO     | __main__ |    tumor_size                     score: 153.12
+2026-05-14 21:55:33 | INFO     | __main__ |    regional_node_positive         score: 134.68
+2026-05-14 21:55:33 | INFO     | __main__ |    race                           score: 81.76
+2026-05-14 21:55:33 | INFO     | __main__ |    regional_node_examined         score: 50.83
+2026-05-14 21:55:33 | INFO     | __main__ |    marital_status                 score: 40.56
+2026-05-14 21:55:33 | INFO     | __main__ |    age                            score: 38.52
+2026-05-14 21:55:33 | INFO     | __main__ |    a_stage                        score: 28.34
+2026-05-14 21:55:33 | INFO     | __main__ | ✅ Selected features: ['age', 'race', 'marital_status', 'differentiate', 'a_stage', 'tumor_size', 'estrogen_status', 'progesterone_status', 'regional_node_examined', 'regional_node_positive']
+2026-05-14 21:55:33 | INFO     | __main__ | 📌 STEP 3 — Train/Test split...
+2026-05-14 21:55:33 | INFO     | __main__ | ✅ Train: 4641 | Test: 1161
+2026-05-14 21:55:33 | INFO     | __main__ | 📌 STEP 4 — Scaling features...
+2026-05-14 21:55:33 | INFO     | __main__ | ✅ Features scaled successfully
+2026-05-14 21:55:33 | INFO     | __main__ | 💾 LOAD — Saving artifacts...
+2026-05-14 21:55:33 | INFO     | __main__ | ✅ Train/Test splits saved
+2026-05-14 21:55:33 | INFO     | __main__ | ✅ scaler.pkl saved → /home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/src/feature_engineering/../../src/constants/../../artifacts/encoders/scaler.pkl
+2026-05-14 21:55:33 | INFO     | __main__ | ✅ selector.pkl saved → /home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/src/feature_engineering/../../src/constants/../../artifacts/encoders/selector.pkl
+2026-05-14 21:55:33 | INFO     | __main__ | ✅ selected_features.pkl saved → /home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/src/feature_engineering/../../src/constants/../../artifacts/encoders/selected_features.pkl
+2026-05-14 21:55:33 | INFO     | __main__ | ✅ FEATURE ENGINEERING ETL COMPLETED ✅
+2026-05-14 21:55:33 | INFO     | __main__ |    → Ready for train.py

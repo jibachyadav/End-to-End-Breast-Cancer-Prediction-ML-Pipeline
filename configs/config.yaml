@@ -1,0 +1,146 @@
+# ══════════════════════════════════════════════════════
+# BREAST CANCER PREDICTION PIPELINE — CONFIG
+# ══════════════════════════════════════════════════════
+
+# ── Database ───────────────────────────────────────────
+database:
+  host:     localhost
+  port:     3306
+  name:     breast_cancer_db
+  user:     bc_user
+  password: bc_password123
+
+# ── Data ───────────────────────────────────────────────
+data:
+  raw_table:       breast_cancer_raw
+  processed_table: breast_cancer_processed
+  raw_path:        data/raw/Breast_Cancer.csv
+
+# ── Validation ─────────────────────────────────────────
+validation:
+  imbalance_threshold: 0.20
+  skew_threshold:      1.0
+  expected_columns:
+    - age
+    - race
+    - marital_status
+    - t_stage
+    - n_stage
+    - sixth_stage
+    - differentiate
+    - grade
+    - a_stage
+    - tumor_size
+    - estrogen_status
+    - progesterone_status
+    - regional_node_examined
+    - regional_node_positive
+    - survival_months
+    - status
+  numerical_cols:
+    - age
+    - tumor_size
+    - regional_node_examined
+    - regional_node_positive
+    - survival_months
+  categorical_cols:
+    - race
+    - marital_status
+    - t_stage
+    - n_stage
+    - sixth_stage
+    - differentiate
+    - grade
+    - a_stage
+    - estrogen_status
+    - progesterone_status
+    - status
+
+# ── Transformation ─────────────────────────────────────
+transformation:
+  target_col: status
+  drop_cols:
+    - survival_months
+  outlier_cols:
+    - tumor_size
+    - regional_node_examined
+    - regional_node_positive
+  skewed_cols:
+    - tumor_size
+    - regional_node_positive
+  categorical_cols:
+    - race
+    - marital_status
+    - t_stage
+    - n_stage
+    - sixth_stage
+    - differentiate
+    - grade
+    - a_stage
+    - estrogen_status
+    - progesterone_status
+  target_mapping:
+    Alive: 1
+    Dead:  0
+  smote_random_state: 42
+
+# ── Feature Engineering ────────────────────────────────
+feature_engineering:
+  target_col:      status
+  test_size:       0.2
+  random_state:    42
+  top_k_features:  10
+  artifacts_dir:   artifacts/
+
+# ── Model Training ─────────────────────────────────────
+model:
+  random_state: 42
+  artifacts_dir: artifacts/models/
+  models:
+    logistic_regression:
+      max_iter: 1000
+      random_state: 42
+    random_forest:
+      n_estimators: 100
+      random_state: 42
+    xgboost:
+      n_estimators: 100
+      random_state: 42
+      learning_rate: 0.1
+    svm:
+      kernel: rbf
+      probability: true
+
+# ── Evaluation ─────────────────────────────────────────
+evaluation:
+  metrics:
+    - accuracy
+    - precision
+    - recall
+    - f1
+    - roc_auc
+  report_dir: logs/
+
+# ── Paths ──────────────────────────────────────────────
+paths:
+  artifacts:  artifacts/
+  encoders:   artifacts/encoders/
+  models:     artifacts/models/
+  logs:       logs/
+  reports:    logs/
+
+
+# ── MLflow ─────────────────────────────────────────────
+mlflow:
+  tracking_uri: mlruns
+  experiment_name: breast_cancer_prediction
+
+
+# ── Pipeline Control ───────────────────────────────────────
+pipeline:
+  run_ingestion:      true
+  run_validation:     true
+  run_transformation: true
+  run_engineering:    true
+  run_training:       true
+  run_evaluation:     true
