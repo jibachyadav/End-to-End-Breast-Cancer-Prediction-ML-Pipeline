@@ -70,3 +70,29 @@ RUN_TRAINING       = CONFIG['pipeline']['run_training']
 RUN_EVALUATION     = CONFIG['pipeline']['run_evaluation']
 
 
+# PREDICTION
+TARGET_MAPPING_REVERSE  = {
+    v: k for k, v in CONFIG['transformation']['target_mapping'].items()
+}
+CONFIDENCE_THRESHOLD    = CONFIG['prediction']['confidence_threshold']
+
+
+
+# Prediction Constants
+
+PREDICTION_LABELS = {
+    0: "Dead",
+    1: "Alive"
+}
+
+DEFAULT_CONFIDENCE_THRESHOLD = 0.75
+
+
+# PREDICTION MAPS
+PREDICTION_MAPS      = CONFIG['prediction_maps']
+RACE_MAP             = PREDICTION_MAPS['race']
+MARITAL_MAP          = PREDICTION_MAPS['marital_status']
+DIFFERENTIATE_MAP    = PREDICTION_MAPS['differentiate']
+ASTAGE_MAP           = PREDICTION_MAPS['a_stage']
+STATUS_MAP           = PREDICTION_MAPS['status']
+NUMBER_RANGES        = PREDICTION_MAPS['number_ranges']

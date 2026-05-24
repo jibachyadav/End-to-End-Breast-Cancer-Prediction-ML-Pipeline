@@ -144,3 +144,68 @@ pipeline:
   run_engineering:    true
   run_training:       true
   run_evaluation:     true
+
+  # ── Prediction ─────────────────────────────────────────
+prediction:
+  target_mapping:
+    0: Dead
+    1: Alive
+  confidence_threshold: 0.50
+
+
+# ── Prediction Input Maps ──────────────────────────────
+prediction_maps:
+  race:
+    white: White
+    black: Black
+    african american: Black
+    other: Other
+
+  marital_status:
+    married: Married
+    single: Single
+    unmarried: Single
+    divorced: Divorced
+    widowed: Widowed
+    widow: Widowed
+    separated: Separated
+
+  differentiate:
+    well differentiated: Well differentiated
+    well: Well differentiated
+    moderately differentiated: Moderately differentiated
+    moderate: Moderately differentiated
+    moderately: Moderately differentiated
+    poorly differentiated: Poorly differentiated
+    poorly: Poorly differentiated
+    undifferentiated: Undifferentiated
+
+  a_stage:
+    regional: Regional
+    distant: Distant
+    metastatic: Distant
+
+  status:
+    positive: Positive
+    pos: Positive
+    yes: Positive
+    "+": Positive
+    negative: Negative
+    neg: Negative
+    no: Negative
+    "-": Negative
+
+  number_ranges:
+    age: [1, 120]
+    tumor_size: [0, 200]
+    regional_node_examined: [0, 100]
+    regional_node_positive: [0, 100]
+
+
+logging:
+  level:      INFO
+  format:     "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s"
+  datefmt:    "%Y-%m-%d %H:%M:%S"
+  log_dir:    logs/
+  console_level: WARNING
+  file_level:    DEBUG

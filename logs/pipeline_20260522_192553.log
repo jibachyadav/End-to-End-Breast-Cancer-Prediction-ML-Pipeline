@@ -1,0 +1,9 @@
+2026-05-22 19:27:12 | INFO     | __main__ | =======================================================
+2026-05-22 19:27:12 | INFO     | __main__ | PREDICTION PIPELINE STARTED
+2026-05-22 19:27:12 | INFO     | __main__ | Time: 2026-05-22 19:27:12
+2026-05-22 19:27:12 | INFO     | __main__ | =======================================================
+2026-05-22 19:27:12 | INFO     | __main__ | ============================================================
+2026-05-22 19:27:12 | INFO     | __main__ |   🚀 STAGE: STEP 1 - NORMALIZE INPUT
+2026-05-22 19:27:12 | INFO     | __main__ |   ⏰ Time : 2026-05-22 19:27:12
+2026-05-22 19:27:12 | INFO     | __main__ | ============================================================
+2026-05-22 19:27:12 | ERROR    | __main__ | ❌ Input error: 'ell' is not valid for 'differentiate'. Valid options: ['Moderately differentiated', 'Well differentiated', 'Poorly differentiated', 'Undifferentiated']

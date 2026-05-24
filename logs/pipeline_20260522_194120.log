@@ -1,0 +1,48 @@
+2026-05-22 19:41:20 | INFO     | __main__ | ============================================================
+2026-05-22 19:41:20 | INFO     | __main__ |   🚀 STAGE: MODEL TRAINING — ETL + MLflow
+2026-05-22 19:41:20 | INFO     | __main__ |   ⏰ Time : 2026-05-22 19:41:20
+2026-05-22 19:41:20 | INFO     | __main__ | ============================================================
+2026-05-22 19:41:20 | INFO     | __main__ | 📥 EXTRACT — Reading train/test artifacts...
+2026-05-22 19:41:20 | INFO     | __main__ | ✅ X_train: (4641, 10) | X_test: (1161, 10)
+2026-05-22 19:41:20 | INFO     | __main__ | ✅ y_train: (4641,) | y_test: (1161,)
+2026-05-22 19:41:20 | INFO     | __main__ | 🔄 TRANSFORM — Training all models with MLflow tracking...
+2026-05-22 19:41:20 | INFO     | __main__ | 📌 Training → random_forest
+2026-05-22 19:41:24 | INFO     | __main__ |    Metric          Train     Test      Gap
+2026-05-22 19:41:24 | INFO     | __main__ |    ----------------------------------------
+2026-05-22 19:41:24 | INFO     | __main__ |    accuracy       0.9235   0.8803  +0.0432
+2026-05-22 19:41:24 | INFO     | __main__ |    f1             0.9241   0.8782  +0.0459
+2026-05-22 19:41:24 | INFO     | __main__ |    precision      0.9169   0.8930  +0.0239
+2026-05-22 19:41:24 | INFO     | __main__ |    recall         0.9315   0.8638  +0.0677
+2026-05-22 19:41:24 | INFO     | __main__ |    CV f1: 0.8539 ± 0.0120
+2026-05-22 19:41:24 | INFO     | __main__ |    Diagnosis: ✅ GOOD FIT  — train/test gap: 0.0432
+2026-05-22 19:41:24 | INFO     | __main__ | 
+2026-05-22 19:41:24 | INFO     | __main__ | 📌 Training → xgboost
+2026-05-22 19:41:27 | INFO     | __main__ |    Metric          Train     Test      Gap
+2026-05-22 19:41:27 | INFO     | __main__ |    ----------------------------------------
+2026-05-22 19:41:27 | INFO     | __main__ |    accuracy       0.9429   0.9156  +0.0273
+2026-05-22 19:41:27 | INFO     | __main__ |    f1             0.9448   0.9165  +0.0283
+2026-05-22 19:41:27 | INFO     | __main__ |    precision      0.9149   0.9057  +0.0092
+2026-05-22 19:41:27 | INFO     | __main__ |    recall         0.9767   0.9276  +0.0491
+2026-05-22 19:41:27 | INFO     | __main__ |    CV f1: 0.8918 ± 0.0058
+2026-05-22 19:41:27 | INFO     | __main__ |    Diagnosis: ✅ GOOD FIT  — train/test gap: 0.0273
+2026-05-22 19:41:27 | INFO     | __main__ | 
+2026-05-22 19:41:27 | INFO     | __main__ | =======================================================
+2026-05-22 19:41:27 | INFO     | __main__ | ✅ 🏆 Best model: xgboost | CV f1: 0.8918
+2026-05-22 19:41:27 | INFO     | __main__ | =======================================================
+2026-05-22 19:41:27 | INFO     | __main__ | 💾 LOAD — Saving models and metrics...
+2026-05-22 19:41:27 | INFO     | __main__ | ✅ random_forest.pkl saved | CV f1: 0.8539
+2026-05-22 19:41:27 | INFO     | __main__ | ✅ xgboost.pkl saved | CV f1: 0.8918
+2026-05-22 19:41:27 | INFO     | __main__ | ✅ best_model.pkl saved → xgboost
+2026-05-22 19:41:27 | INFO     | __main__ | ✅ train_test_comparison.json saved
+2026-05-22 19:41:27 | INFO     | __main__ | 
+=====================================================================================
+2026-05-22 19:41:27 | INFO     | __main__ | Model                        CV F1  Train Acc   Test Acc      Gap Diagnosis
+2026-05-22 19:41:27 | INFO     | __main__ | =====================================================================================
+2026-05-22 19:41:27 | INFO     | __main__ | random_forest               0.8539     0.9235     0.8803  +0.0432  ✅ GOOD FIT
+2026-05-22 19:41:27 | INFO     | __main__ | xgboost                     0.8918     0.9429     0.9156  +0.0273  ✅ GOOD FIT 🏆
+2026-05-22 19:41:27 | INFO     | __main__ | =====================================================================================
+2026-05-22 19:41:27 | INFO     | __main__ | ✅ MODEL TRAINING ETL COMPLETED ✅
+2026-05-22 19:41:27 | INFO     | __main__ |    → Models saved to artifacts/models/
+2026-05-22 19:41:27 | INFO     | __main__ |    → Metrics saved to artifacts/metrics/
+2026-05-22 19:41:27 | INFO     | __main__ |    → Run 'mlflow ui' to view experiments
+2026-05-22 19:41:27 | INFO     | __main__ |    → Ready for evaluate.py

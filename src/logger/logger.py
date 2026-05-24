@@ -39,7 +39,7 @@ def get_logger(name: str) -> logging.Logger:
 
     # ── Console Handler (shows in terminal) ───────────────────────────────────
     console_handler = logging.StreamHandler()
-    console_handler.setLevel(logging.INFO)
+    console_handler.setLevel(logging.WARNING)
     console_handler.setFormatter(formatter)
 
     # ── File Handler (saves to logs/) ─────────────────────────────────────────
@@ -51,6 +51,9 @@ def get_logger(name: str) -> logging.Logger:
     logger.addHandler(file_handler)
 
     return logger
+
+
+
 
 
 # ══════════════════════════════════════════════════════════════════════════════

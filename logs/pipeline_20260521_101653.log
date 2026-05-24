@@ -1,0 +1,25 @@
+2026-05-21 10:16:53 | INFO     | __main__ | ============================================================
+2026-05-21 10:16:53 | INFO     | __main__ |   🚀 STAGE: PREDICTION
+2026-05-21 10:16:53 | INFO     | __main__ |   ⏰ Time : 2026-05-21 10:16:53
+2026-05-21 10:16:53 | INFO     | __main__ | ============================================================
+2026-05-21 10:16:53 | INFO     | __main__ | 📦 Loading model and encoders...
+2026-05-21 10:16:54 | INFO     | __main__ | ✅ Model loaded: xgboost
+2026-05-21 10:16:54 | INFO     | __main__ | ✅ Features expected: ['age', 'race', 'marital_status', 'differentiate', 'a_stage', 'tumor_size', 'estrogen_status', 'progesterone_status', 'regional_node_examined', 'regional_node_positive']
+2026-05-21 10:16:54 | INFO     | __main__ | ✅ Label encoders loaded: ['race', 'marital_status', 't_stage', 'n_stage', 'sixth_stage', 'differentiate', 'grade', 'a_stage', 'estrogen_status', 'progesterone_status']
+2026-05-21 10:16:54 | INFO     | __main__ | 🔄 Encoding raw input...
+2026-05-21 10:16:54 | INFO     | __main__ |    race: 'White' → 2
+2026-05-21 10:16:54 | INFO     | __main__ |    marital_status: 'Married' → 1
+2026-05-21 10:16:54 | INFO     | __main__ |    differentiate: 'Well differentiated' → 3
+2026-05-21 10:16:54 | INFO     | __main__ |    a_stage: 'Regional' → 1
+2026-05-21 10:16:54 | INFO     | __main__ |    estrogen_status: 'Positive' → 1
+2026-05-21 10:16:54 | INFO     | __main__ |    progesterone_status: 'Positive' → 1
+2026-05-21 10:16:54 | INFO     | __main__ |    tumor_size: 30 → 3.4340 (log1p)
+2026-05-21 10:16:54 | INFO     | __main__ |    regional_node_positive: 1 → 0.6931 (log1p)
+2026-05-21 10:16:54 | INFO     | __main__ | ✅ Input encoded successfully
+2026-05-21 10:16:54 | INFO     | __main__ | 📋 Preparing input data...
+2026-05-21 10:16:54 | INFO     | __main__ |    Input shape: (1, 10)
+2026-05-21 10:16:54 | INFO     | __main__ | ✅ Features scaled successfully
+2026-05-21 10:16:54 | INFO     | __main__ | ✅ Prediction: Alive (98.21% confidence)
+2026-05-21 10:16:54 | INFO     | __main__ |    Alive probability : 98.21%
+2026-05-21 10:16:54 | INFO     | __main__ |    Dead  probability : 1.79%
+2026-05-21 10:16:54 | INFO     | __main__ |    High confidence   : True

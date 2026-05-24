@@ -1,0 +1,10 @@
+artifact_location: /home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/mlruns/606152200393319294/models/m-cfa0aa5c1ba94296b8247399f2e0bf5c/artifacts
+creation_timestamp: 1779273539989
+experiment_id: '606152200393319294'
+last_updated_timestamp: 1779273543108
+model_id: m-cfa0aa5c1ba94296b8247399f2e0bf5c
+model_type: null
+name: random_forest
+source_run_id: 737d1e2a57594bf1ad8ef48f4084b490
+status: 2
+status_message: null

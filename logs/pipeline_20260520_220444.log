@@ -1,0 +1,67 @@
+2026-05-20 22:04:44 | INFO     | __main__ | ============================================================
+2026-05-20 22:04:44 | INFO     | __main__ |   🚀 STAGE: DATA TRANSFORMATION — ETL
+2026-05-20 22:04:44 | INFO     | __main__ |   ⏰ Time : 2026-05-20 22:04:44
+2026-05-20 22:04:44 | INFO     | __main__ | ============================================================
+2026-05-20 22:04:44 | INFO     | __main__ | 📥 EXTRACT — Reading from breast_cancer_raw...
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ Extracted 4023 rows from breast_cancer_raw
+2026-05-20 22:04:44 | INFO     | __main__ | 🔄 TRANSFORM — Applying all cleaning steps...
+2026-05-20 22:04:44 | INFO     | __main__ | 📌 STEP 1 — Dropping ['survival_months']...
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ ['survival_months'] dropped
+2026-05-20 22:04:44 | INFO     | __main__ | 📌 STEP 2 — Removing outliers (IQR)...
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ tumor_size outliers removed | [-17.0, 71.0]
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ regional_node_examined outliers removed | [-6.0, 34.0]
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ regional_node_positive outliers removed | [-3.5, 8.5]
+2026-05-20 22:04:44 | WARNING  | __main__ | ⚠️  Removed 739 outlier rows | 3284 remaining
+2026-05-20 22:04:44 | INFO     | __main__ | 📌 STEP 3 — Fixing skewness (log transform)...
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ tumor_size log transformed | new skew: -0.40
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ regional_node_positive log transformed | new skew: 0.74
+2026-05-20 22:04:44 | INFO     | __main__ | 📌 STEP 4 — Label encoding & saving encoders...
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ race encoded | classes: ['Black', 'Other', 'White']
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ marital_status encoded | classes: ['Divorced', 'Married', 'Separated', 'Single', 'Widowed']
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ t_stage encoded | classes: ['T1', 'T2', 'T3', 'T4']
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ n_stage encoded | classes: ['N1', 'N2', 'N3']
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ sixth_stage encoded | classes: ['IIA', 'IIB', 'IIIA', 'IIIB', 'IIIC']
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ differentiate encoded | classes: ['Moderately differentiated', 'Poorly differentiated', 'Undifferentiated', 'Well differentiated']
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ grade encoded | classes: ['1', '2', '3', 'anaplastic; Grade IV']
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ a_stage encoded | classes: ['Distant', 'Regional']
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ estrogen_status encoded | classes: ['Negative', 'Positive']
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ progesterone_status encoded | classes: ['Negative', 'Positive']
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ label_encoders.pkl saved → /home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/src/data_transformation/../../src/constants/../../artifacts/encoders/label_encoders.pkl
+2026-05-20 22:04:44 | INFO     | __main__ | 📌 STEP 5 — Encoding target...
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ status encoded | {'Alive': 1, 'Dead': 0}
+2026-05-20 22:04:44 | INFO     | __main__ | 📌 STEP 6 — SMOTE...
+2026-05-20 22:04:44 | INFO     | __main__ |    Before SMOTE: {1: 2901, 0: 383}
+2026-05-20 22:04:44 | INFO     | __main__ |    After SMOTE:  {1: 2901, 0: 2901}
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ SMOTE applied | 5802 rows
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ TRANSFORM complete — 5802 rows, 15 columns
+2026-05-20 22:04:44 | INFO     | __main__ | 💾 LOAD — Saving to breast_cancer_processed...
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ Loaded 5802 rows into breast_cancer_processed
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ Verified — breast_cancer_processed has 5802 rows
+2026-05-20 22:04:44 | INFO     | __main__ | ✅ DATA TRANSFORMATION ETL COMPLETED ✅
+2026-05-20 22:04:44 | INFO     | __main__ |    → label_encoders.pkl saved to artifacts/encoders/
+2026-05-20 22:04:44 | INFO     | __main__ |    → Ready for engineering.py
+2026-05-20 22:04:44 | INFO     | __main__ | ============================================================
+2026-05-20 22:04:44 | INFO     | __main__ |   🚀 STAGE: PREDICTION
+2026-05-20 22:04:44 | INFO     | __main__ |   ⏰ Time : 2026-05-20 22:04:44
+2026-05-20 22:04:44 | INFO     | __main__ | ============================================================
+2026-05-20 22:04:44 | INFO     | __main__ | 📦 Loading model and encoders...
+2026-05-20 22:04:45 | INFO     | __main__ | ✅ Model loaded: xgboost
+2026-05-20 22:04:45 | INFO     | __main__ | ✅ Features expected: ['age', 'race', 'marital_status', 'differentiate', 'a_stage', 'tumor_size', 'estrogen_status', 'progesterone_status', 'regional_node_examined', 'regional_node_positive']
+2026-05-20 22:04:45 | INFO     | __main__ | ✅ Label encoders loaded: ['race', 'marital_status', 't_stage', 'n_stage', 'sixth_stage', 'differentiate', 'grade', 'a_stage', 'estrogen_status', 'progesterone_status']
+2026-05-20 22:04:45 | INFO     | __main__ | 🔄 Encoding raw input...
+2026-05-20 22:04:45 | INFO     | __main__ |    race: 'White' → 2
+2026-05-20 22:04:45 | INFO     | __main__ |    marital_status: 'Married' → 1
+2026-05-20 22:04:45 | INFO     | __main__ |    differentiate: 'Well differentiated' → 3
+2026-05-20 22:04:45 | INFO     | __main__ |    a_stage: 'Regional' → 1
+2026-05-20 22:04:45 | INFO     | __main__ |    estrogen_status: 'Positive' → 1
+2026-05-20 22:04:45 | INFO     | __main__ |    progesterone_status: 'Positive' → 1
+2026-05-20 22:04:45 | INFO     | __main__ |    tumor_size: 30 → 3.4340 (log1p)
+2026-05-20 22:04:45 | INFO     | __main__ |    regional_node_positive: 1 → 0.6931 (log1p)
+2026-05-20 22:04:45 | INFO     | __main__ | ✅ Input encoded successfully
+2026-05-20 22:04:45 | INFO     | __main__ | 📋 Preparing input data...
+2026-05-20 22:04:45 | INFO     | __main__ |    Input shape: (1, 10)
+2026-05-20 22:04:45 | INFO     | __main__ | ✅ Features scaled successfully
+2026-05-20 22:04:45 | INFO     | __main__ | ✅ Prediction: Alive (98.21% confidence)
+2026-05-20 22:04:45 | INFO     | __main__ |    Alive probability : 98.21%
+2026-05-20 22:04:45 | INFO     | __main__ |    Dead  probability : 1.79%
+2026-05-20 22:04:45 | INFO     | __main__ |    High confidence   : True

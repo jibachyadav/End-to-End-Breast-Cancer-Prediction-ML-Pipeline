@@ -1,0 +1,20 @@
+2026-05-21 10:47:25 | INFO     | __main__ | 📦 Loading prediction artifacts...
+2026-05-21 10:47:26 | INFO     | __main__ | ✅ Loaded model: xgboost
+2026-05-21 10:48:44 | INFO     | __main__ | ============================================================
+2026-05-21 10:48:44 | INFO     | __main__ |   🚀 STAGE: PREDICTION PIPELINE
+2026-05-21 10:48:44 | INFO     | __main__ |   ⏰ Time : 2026-05-21 10:48:44
+2026-05-21 10:48:44 | INFO     | __main__ | ============================================================
+2026-05-21 10:48:44 | INFO     | __main__ | 🔄 Encoding input data...
+2026-05-21 10:48:44 | INFO     | __main__ |    race: 'White' → 2
+2026-05-21 10:48:44 | INFO     | __main__ |    marital_status: 'Married' → 1
+2026-05-21 10:48:44 | INFO     | __main__ |    differentiate: 'Well differentiated' → 3
+2026-05-21 10:48:44 | INFO     | __main__ |    a_stage: 'Regional' → 1
+2026-05-21 10:48:44 | INFO     | __main__ |    estrogen_status: 'Positive' → 1
+2026-05-21 10:48:44 | INFO     | __main__ |    progesterone_status: 'Negative' → 0
+2026-05-21 10:48:44 | INFO     | __main__ |    tumor_size: 12.0 → 2.5649
+2026-05-21 10:48:44 | INFO     | __main__ |    regional_node_positive: 2 → 1.0986
+2026-05-21 10:48:44 | INFO     | __main__ | ✅ Input encoded successfully
+2026-05-21 10:48:44 | INFO     | __main__ | 📋 Raw input shape: (1, 10)
+2026-05-21 10:48:44 | INFO     | __main__ | 📊 Final feature shape: (1, 10)
+2026-05-21 10:48:44 | INFO     | __main__ | ✅ Features scaled successfully
+2026-05-21 10:48:44 | INFO     | __main__ | ✅ Prediction completed: Alive
