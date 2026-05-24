@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: breast_cancer_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../artifacts:/app/artifacts
+      - ../logs:/app/logs
+      - ../mlruns:/app/mlruns
+    environment:
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - mariadb
+      - redis
+    restart: always
+
+  mariadb:
+    image: mariadb:10.11
+    container_name: breast_cancer_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root1234
+      MYSQL_DATABASE:      breast_cancer_db
+      MYSQL_USER:          bc_user
+      MYSQL_PASSWORD:      bc_password123
+    ports:
+      - "3307:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    restart: always
+
+  redis:
+    image: redis:7-alpine
+    container_name: breast_cancer_redis
+    ports:
+      - "6379:6379"
+    restart: always
+
+volumes:
+  mariadb_data:
