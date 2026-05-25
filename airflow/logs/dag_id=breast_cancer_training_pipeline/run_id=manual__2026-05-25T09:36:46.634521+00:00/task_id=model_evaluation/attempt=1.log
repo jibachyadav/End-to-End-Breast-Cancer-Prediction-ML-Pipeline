@@ -1,0 +1,53 @@
+{"timestamp":"2026-05-25T09:37:03.523178Z","level":"info","event":"DAG bundles loaded: dags-folder, example_dags","logger":"airflow.dag_processing.bundles.manager.DagBundlesManager","filename":"manager.py","lineno":209}
+{"timestamp":"2026-05-25T09:37:03.524346Z","level":"info","event":"Filling up the DagBag from /home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/airflow/dags/breast_cancer_pipeline_dag.py","logger":"airflow.dag_processing.dagbag.BundleDagBag","filename":"dagbag.py","lineno":469}
+{"timestamp":"2026-05-25T09:37:03.571671Z","level":"warning","event":"The `airflow.operators.python.PythonOperator` attribute is deprecated. Please use `'airflow.providers.standard.operators.python.PythonOperator'`.","category":"UserWarning","filename":"/home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/airflow/dags/breast_cancer_pipeline_dag.py","lineno":3,"logger":"py.warnings"}
+{"timestamp":"2026-05-25T09:37:03.594459Z","level":"info","event":"Task instance is in running state","logger":"task.stdout"}
+{"timestamp":"2026-05-25T09:37:03.594796Z","level":"info","event":" Previous state of the Task instance: TaskInstanceState.QUEUED","logger":"task.stdout"}
+{"timestamp":"2026-05-25T09:37:03.595020Z","level":"info","event":"Current task name:model_evaluation","logger":"task.stdout"}
+{"timestamp":"2026-05-25T09:37:03.595195Z","level":"info","event":"Dag name:breast_cancer_training_pipeline","logger":"task.stdout"}
+{"timestamp":"2026-05-25T09:37:04.252218Z","level":"info","event":"============================================================","logger":"src.model_evaluation.evaluate","filename":"logger.py","lineno":69}
+{"timestamp":"2026-05-25T09:37:04.252380Z","level":"info","event":"  🚀 STAGE: MODEL EVALUATION — ETL","logger":"src.model_evaluation.evaluate","filename":"logger.py","lineno":70}
+{"timestamp":"2026-05-25T09:37:04.252473Z","level":"info","event":"  ⏰ Time : 2026-05-25 15:22:04","logger":"src.model_evaluation.evaluate","filename":"logger.py","lineno":71}
+{"timestamp":"2026-05-25T09:37:04.252539Z","level":"info","event":"============================================================","logger":"src.model_evaluation.evaluate","filename":"logger.py","lineno":72}
+{"timestamp":"2026-05-25T09:37:04.252600Z","level":"info","event":"📥 EXTRACT — Reading model and test artifacts...","logger":"src.model_evaluation.evaluate","filename":"evaluate.py","lineno":33}
+{"timestamp":"2026-05-25T09:37:04.305103Z","level":"info","event":"✅ Model loaded   : xgboost","logger":"src.model_evaluation.evaluate","filename":"logger.py","lineno":76}
+{"timestamp":"2026-05-25T09:37:04.305343Z","level":"info","event":"✅ X_test: (1161, 10) | y_test: (1161,)","logger":"src.model_evaluation.evaluate","filename":"logger.py","lineno":76}
+{"timestamp":"2026-05-25T09:37:04.305454Z","level":"info","event":"🔄 TRANSFORM — Evaluating model...","logger":"src.model_evaluation.evaluate","filename":"evaluate.py","lineno":120}
+{"timestamp":"2026-05-25T09:37:04.305544Z","level":"info","event":"📌 STEP 1 — Generating predictions...","logger":"src.model_evaluation.evaluate","filename":"evaluate.py","lineno":123}
+{"timestamp":"2026-05-25T09:37:04.313227Z","level":"info","event":"✅ Predictions generated: 1161 samples","logger":"src.model_evaluation.evaluate","filename":"logger.py","lineno":76}
+{"timestamp":"2026-05-25T09:37:04.313578Z","level":"info","event":"📌 STEP 2 — Calculating metrics...","logger":"src.model_evaluation.evaluate","filename":"evaluate.py","lineno":128}
+{"timestamp":"2026-05-25T09:37:04.324912Z","level":"info","event":"✅ accuracy    : 0.9156","logger":"src.model_evaluation.evaluate","filename":"logger.py","lineno":76}
+{"timestamp":"2026-05-25T09:37:04.325347Z","level":"info","event":"✅ precision   : 0.9057","logger":"src.model_evaluation.evaluate","filename":"logger.py","lineno":76}
+{"timestamp":"2026-05-25T09:37:04.325696Z","level":"info","event":"✅ recall      : 0.9276","logger":"src.model_evaluation.evaluate","filename":"logger.py","lineno":76}
+{"timestamp":"2026-05-25T09:37:04.326035Z","level":"info","event":"✅ f1_score    : 0.9165","logger":"src.model_evaluation.evaluate","filename":"logger.py","lineno":76}
+{"timestamp":"2026-05-25T09:37:04.326285Z","level":"info","event":"✅ roc_auc     : 0.9623","logger":"src.model_evaluation.evaluate","filename":"logger.py","lineno":76}
+{"timestamp":"2026-05-25T09:37:04.326602Z","level":"info","event":"📌 STEP 3 — Confusion matrix...","logger":"src.model_evaluation.evaluate","filename":"evaluate.py","lineno":135}
+{"timestamp":"2026-05-25T09:37:04.328131Z","level":"info","event":"   Confusion Matrix:","logger":"src.model_evaluation.evaluate","filename":"evaluate.py","lineno":92}
+{"timestamp":"2026-05-25T09:37:04.328503Z","level":"info","event":"   TN=525  FP=56","logger":"src.model_evaluation.evaluate","filename":"evaluate.py","lineno":93}
+{"timestamp":"2026-05-25T09:37:04.328834Z","level":"info","event":"   FN=42  TP=538","logger":"src.model_evaluation.evaluate","filename":"evaluate.py","lineno":94}
+{"timestamp":"2026-05-25T09:37:04.329187Z","level":"info","event":"✅ True Positives  (Dead correctly predicted)  : 538","logger":"src.model_evaluation.evaluate","filename":"logger.py","lineno":76}
+{"timestamp":"2026-05-25T09:37:04.329537Z","level":"info","event":"✅ True Negatives  (Alive correctly predicted) : 525","logger":"src.model_evaluation.evaluate","filename":"logger.py","lineno":76}
+{"timestamp":"2026-05-25T09:37:04.329933Z","level":"error","event":"2026-05-25 15:22:04 | WARNING  | src.model_evaluation.evaluate | ⚠️  False Positives (Alive predicted as Dead)   : 56","logger":"task.stderr"}
+{"timestamp":"2026-05-25T09:37:04.333133Z","level":"error","event":"2026-05-25 15:22:04 | WARNING  | src.model_evaluation.evaluate | ⚠️  False Negatives (Dead predicted as Alive)   : 42","logger":"task.stderr"}
+{"timestamp":"2026-05-25T09:37:04.330096Z","level":"warning","event":"⚠️  False Positives (Alive predicted as Dead)   : 56","logger":"src.model_evaluation.evaluate","filename":"logger.py","lineno":80}
+{"timestamp":"2026-05-25T09:37:04.330201Z","level":"warning","event":"⚠️  False Negatives (Dead predicted as Alive)   : 42","logger":"src.model_evaluation.evaluate","filename":"logger.py","lineno":80}
+{"timestamp":"2026-05-25T09:37:04.330281Z","level":"info","event":"📌 STEP 4 — Classification report...","logger":"src.model_evaluation.evaluate","filename":"evaluate.py","lineno":140}
+{"timestamp":"2026-05-25T09:37:04.338642Z","level":"info","event":"\n              precision    recall  f1-score   support\n\n        Dead       0.93      0.90      0.91       581\n       Alive       0.91      0.93      0.92       580\n\n    accuracy                           0.92      1161\n   macro avg       0.92      0.92      0.92      1161\nweighted avg       0.92      0.92      0.92      1161\n","logger":"src.model_evaluation.evaluate","filename":"evaluate.py","lineno":142}
+{"timestamp":"2026-05-25T09:37:04.339115Z","level":"info","event":"💾 LOAD — Saving evaluation report...","logger":"src.model_evaluation.evaluate","filename":"evaluate.py","lineno":165}
+{"timestamp":"2026-05-25T09:37:04.339502Z","level":"info","event":"✅ Evaluation report saved → /home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/src/constants/../../logs/evaluation_report_20260525_152204.json","logger":"src.model_evaluation.evaluate","filename":"logger.py","lineno":76}
+{"timestamp":"2026-05-25T09:37:04.339603Z","level":"info","event":"\n=======================================================","logger":"src.model_evaluation.evaluate","filename":"evaluate.py","lineno":177}
+{"timestamp":"2026-05-25T09:37:04.339679Z","level":"info","event":"   📊 FINAL EVALUATION SUMMARY","logger":"src.model_evaluation.evaluate","filename":"evaluate.py","lineno":178}
+{"timestamp":"2026-05-25T09:37:04.339751Z","level":"info","event":"=======================================================","logger":"src.model_evaluation.evaluate","filename":"evaluate.py","lineno":179}
+{"timestamp":"2026-05-25T09:37:04.339824Z","level":"info","event":"   accuracy    : 0.9156","logger":"src.model_evaluation.evaluate","filename":"evaluate.py","lineno":181}
+{"timestamp":"2026-05-25T09:37:04.339895Z","level":"info","event":"   precision   : 0.9057","logger":"src.model_evaluation.evaluate","filename":"evaluate.py","lineno":181}
+{"timestamp":"2026-05-25T09:37:04.339964Z","level":"info","event":"   recall      : 0.9276","logger":"src.model_evaluation.evaluate","filename":"evaluate.py","lineno":181}
+{"timestamp":"2026-05-25T09:37:04.340044Z","level":"info","event":"   f1_score    : 0.9165","logger":"src.model_evaluation.evaluate","filename":"evaluate.py","lineno":181}
+{"timestamp":"2026-05-25T09:37:04.340117Z","level":"info","event":"   roc_auc     : 0.9623","logger":"src.model_evaluation.evaluate","filename":"evaluate.py","lineno":181}
+{"timestamp":"2026-05-25T09:37:04.340192Z","level":"info","event":"=======================================================","logger":"src.model_evaluation.evaluate","filename":"evaluate.py","lineno":182}
+{"timestamp":"2026-05-25T09:37:04.340267Z","level":"info","event":"✅ MODEL EVALUATION ETL COMPLETED ✅","logger":"src.model_evaluation.evaluate","filename":"logger.py","lineno":76}
+{"timestamp":"2026-05-25T09:37:04.340341Z","level":"info","event":"   → Report saved to logs/","logger":"src.model_evaluation.evaluate","filename":"evaluate.py","lineno":198}
+{"timestamp":"2026-05-25T09:37:04.340415Z","level":"info","event":"   → Ready for predict.py","logger":"src.model_evaluation.evaluate","filename":"evaluate.py","lineno":199}
+{"timestamp":"2026-05-25T09:37:04.340950Z","level":"info","event":"Done. Returned value was: None","logger":"airflow.task.operators.airflow.providers.standard.operators.python.PythonOperator","filename":"python.py","lineno":229}
+{"timestamp":"2026-05-25T09:37:04.360316Z","level":"info","event":"Task instance in success state","logger":"task.stdout"}
+{"timestamp":"2026-05-25T09:37:04.361424Z","level":"info","event":" Previous state of the Task instance: TaskInstanceState.RUNNING","logger":"task.stdout"}
+{"timestamp":"2026-05-25T09:37:04.361609Z","level":"info","event":"Task operator:<Task(PythonOperator): model_evaluation>","logger":"task.stdout"}

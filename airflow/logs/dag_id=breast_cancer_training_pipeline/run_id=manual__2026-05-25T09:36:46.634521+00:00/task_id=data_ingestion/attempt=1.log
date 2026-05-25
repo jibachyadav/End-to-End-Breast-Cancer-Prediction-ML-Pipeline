@@ -1,0 +1,27 @@
+{"timestamp":"2026-05-25T09:36:47.261712Z","level":"info","event":"DAG bundles loaded: dags-folder, example_dags","logger":"airflow.dag_processing.bundles.manager.DagBundlesManager","filename":"manager.py","lineno":209}
+{"timestamp":"2026-05-25T09:36:47.262943Z","level":"info","event":"Filling up the DagBag from /home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/airflow/dags/breast_cancer_pipeline_dag.py","logger":"airflow.dag_processing.dagbag.BundleDagBag","filename":"dagbag.py","lineno":469}
+{"timestamp":"2026-05-25T09:36:47.299135Z","level":"warning","event":"The `airflow.operators.python.PythonOperator` attribute is deprecated. Please use `'airflow.providers.standard.operators.python.PythonOperator'`.","category":"UserWarning","filename":"/home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/airflow/dags/breast_cancer_pipeline_dag.py","lineno":3,"logger":"py.warnings"}
+{"timestamp":"2026-05-25T09:36:47.321771Z","level":"info","event":"Task instance is in running state","logger":"task.stdout"}
+{"timestamp":"2026-05-25T09:36:47.322018Z","level":"info","event":" Previous state of the Task instance: TaskInstanceState.QUEUED","logger":"task.stdout"}
+{"timestamp":"2026-05-25T09:36:47.322165Z","level":"info","event":"Current task name:data_ingestion","logger":"task.stdout"}
+{"timestamp":"2026-05-25T09:36:47.322256Z","level":"info","event":"Dag name:breast_cancer_training_pipeline","logger":"task.stdout"}
+{"timestamp":"2026-05-25T09:36:47.343642Z","level":"info","event":"============================================================","logger":"src.data_ingestion.ingest","filename":"logger.py","lineno":69}
+{"timestamp":"2026-05-25T09:36:47.343864Z","level":"info","event":"  🚀 STAGE: DATA INGESTION — ETL","logger":"src.data_ingestion.ingest","filename":"logger.py","lineno":70}
+{"timestamp":"2026-05-25T09:36:47.344017Z","level":"info","event":"  ⏰ Time : 2026-05-25 15:21:47","logger":"src.data_ingestion.ingest","filename":"logger.py","lineno":71}
+{"timestamp":"2026-05-25T09:36:47.344131Z","level":"info","event":"============================================================","logger":"src.data_ingestion.ingest","filename":"logger.py","lineno":72}
+{"timestamp":"2026-05-25T09:36:47.344228Z","level":"info","event":"📥 EXTRACT — Reading CSV from disk...","logger":"src.data_ingestion.ingest","filename":"ingest.py","lineno":48}
+{"timestamp":"2026-05-25T09:36:47.369098Z","level":"info","event":"✅ Extracted 4024 rows, 16 columns","logger":"src.data_ingestion.ingest","filename":"logger.py","lineno":76}
+{"timestamp":"2026-05-25T09:36:47.369426Z","level":"info","event":"   Columns: ['Age', 'Race', 'Marital Status', 'T Stage ', 'N Stage', '6th Stage', 'differentiate', 'Grade', 'A Stage', 'Tumor Size', 'Estrogen Status', 'Progesterone Status', 'Regional Node Examined', 'Reginol Node Positive', 'Survival Months', 'Status']","logger":"src.data_ingestion.ingest","filename":"ingest.py","lineno":53}
+{"timestamp":"2026-05-25T09:36:47.369577Z","level":"info","event":"🔄 TRANSFORM — Cleaning for raw load...","logger":"src.data_ingestion.ingest","filename":"ingest.py","lineno":81}
+{"timestamp":"2026-05-25T09:36:47.388205Z","level":"error","event":"2026-05-25 15:21:47 | WARNING  | src.data_ingestion.ingest | ⚠️  Dropped 1 duplicate rows","logger":"task.stderr"}
+{"timestamp":"2026-05-25T09:36:47.388102Z","level":"warning","event":"⚠️  Dropped 1 duplicate rows","logger":"src.data_ingestion.ingest","filename":"logger.py","lineno":80}
+{"timestamp":"2026-05-25T09:36:47.389772Z","level":"info","event":"✅ No null values found","logger":"src.data_ingestion.ingest","filename":"logger.py","lineno":76}
+{"timestamp":"2026-05-25T09:36:47.389939Z","level":"info","event":"✅ Transform complete — 4023 rows ready for load","logger":"src.data_ingestion.ingest","filename":"logger.py","lineno":76}
+{"timestamp":"2026-05-25T09:36:47.390121Z","level":"info","event":"💾 LOAD — Pushing data to breast_cancer_raw...","logger":"src.data_ingestion.ingest","filename":"ingest.py","lineno":130}
+{"timestamp":"2026-05-25T09:36:47.799742Z","level":"info","event":"✅ Loaded 4023 rows into breast_cancer_raw","logger":"src.data_ingestion.ingest","filename":"logger.py","lineno":76}
+{"timestamp":"2026-05-25T09:36:47.803087Z","level":"info","event":"✅ Verified — breast_cancer_raw has 4023 rows in DB","logger":"src.data_ingestion.ingest","filename":"logger.py","lineno":76}
+{"timestamp":"2026-05-25T09:36:47.803485Z","level":"info","event":"✅ ETL PIPELINE COMPLETED SUCCESSFULLY 🎉","logger":"src.data_ingestion.ingest","filename":"logger.py","lineno":76}
+{"timestamp":"2026-05-25T09:36:47.804017Z","level":"info","event":"Done. Returned value was: None","logger":"airflow.task.operators.airflow.providers.standard.operators.python.PythonOperator","filename":"python.py","lineno":229}
+{"timestamp":"2026-05-25T09:36:47.831607Z","level":"info","event":"Task instance in success state","logger":"task.stdout"}
+{"timestamp":"2026-05-25T09:36:47.831853Z","level":"info","event":" Previous state of the Task instance: TaskInstanceState.RUNNING","logger":"task.stdout"}
+{"timestamp":"2026-05-25T09:36:47.832079Z","level":"info","event":"Task operator:<Task(PythonOperator): data_ingestion>","logger":"task.stdout"}

@@ -1,0 +1,14 @@
+artifact_uri: /home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/mlruns/606152200393319294/8ab8da7122b14e56bb3af6e53f66415a/artifacts
+end_time: 1779701949311
+entry_point_name: ''
+experiment_id: '606152200393319294'
+lifecycle_stage: active
+run_id: 8ab8da7122b14e56bb3af6e53f66415a
+run_name: training_all_models
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1779701939163
+status: 3
+tags: []
+user_id: jibach
