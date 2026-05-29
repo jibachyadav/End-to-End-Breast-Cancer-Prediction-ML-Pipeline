@@ -20,7 +20,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install fastapi uvicorn pydantic
+          pip install -r requirements.txt
 
       - name: Test API imports
         run: |
