@@ -2,6 +2,9 @@ from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 import sys
+import os
+from dotenv import load_dotenv
+load_dotenv()
 sys.path.insert(0, "/home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline")
 
 default_args = {
@@ -17,7 +20,7 @@ dag = DAG(
     dag_id="breast_cancer_training_pipeline",
     default_args=default_args,
     description="End-to-End Breast Cancer ML Training Pipeline",
-    schedule="@weekly",
+    schedule=os.getenv("DAG_SCHEDULE", "@weekly")
     catchup=False,
     tags=["breast_cancer", "ml", "training"],
 )
