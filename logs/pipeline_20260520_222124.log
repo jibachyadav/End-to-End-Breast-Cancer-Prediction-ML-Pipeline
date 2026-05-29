@@ -1,8 +1,0 @@
-2026-05-20 22:21:24 | INFO     | __main__ | 📦 Loading prediction artifacts...
-2026-05-20 22:21:24 | INFO     | __main__ | ✅ Loaded model: xgboost
-2026-05-20 22:22:54 | INFO     | __main__ | ============================================================
-2026-05-20 22:22:54 | INFO     | __main__ |   🚀 STAGE: PREDICTION PIPELINE
-2026-05-20 22:22:54 | INFO     | __main__ |   ⏰ Time : 2026-05-20 22:22:54
-2026-05-20 22:22:54 | INFO     | __main__ | ============================================================
-2026-05-20 22:22:54 | INFO     | __main__ | 🔄 Encoding input data...
-2026-05-20 22:22:54 | ERROR    | __main__ | ❌ Prediction failed: Invalid value 'black' for 'race'. Expected: ['Black', 'Other', 'White']
