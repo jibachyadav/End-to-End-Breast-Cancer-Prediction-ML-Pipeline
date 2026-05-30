@@ -1,4 +1,3 @@
 docker-desktop-amd64.deb
 airflow/logs/
 logs/
-/artifacts
