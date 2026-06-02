@@ -148,7 +148,7 @@ Reports are saved to `artifacts/reports/`:
 
 Open in browser:
 ```
-file:///path/to/artifacts/reports/monitoring_dashboard.html
+///home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/artifacts/reports/monitoring_dashboard.html
 ```
 
 ---
