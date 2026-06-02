@@ -9,7 +9,7 @@ from src.constants.constants import (
 from src.data_ingestion.ingest           import run_etl
 from src.data_validation.validate        import run_validation
 from src.data_transformation.transform   import run_transformation
-from src.feature_engineering.engineering import run_engineering
+from src.feature_engineering.engineering import run_feature_engineering as run_engineering
 from src.model_training.train            import run_training
 from src.model_evaluation.evaluate       import run_evaluation
 from src.logger.logger import get_logger, log_stage, log_success, log_error

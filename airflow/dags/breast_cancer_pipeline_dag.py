@@ -3,8 +3,7 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 import sys
 import os
-from dotenv import load_dotenv
-load_dotenv()
+
 sys.path.insert(0, "/home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline")
 
 default_args = {
@@ -20,7 +19,7 @@ dag = DAG(
     dag_id="breast_cancer_training_pipeline",
     default_args=default_args,
     description="End-to-End Breast Cancer ML Training Pipeline",
-    schedule=os.getenv("DAG_SCHEDULE", "@weekly")
+    schedule="@weekly",
     catchup=False,
     tags=["breast_cancer", "ml", "training"],
 )
@@ -49,11 +48,11 @@ def task_evaluate(**context):
     from src.model_evaluation.evaluate import run_evaluation
     run_evaluation()
 
-ingest_task   = PythonOperator(task_id="data_ingestion",      python_callable=task_ingest,    dag=dag)
-validate_task = PythonOperator(task_id="data_validation",     python_callable=task_validate,  dag=dag)
-transform_task= PythonOperator(task_id="data_transformation", python_callable=task_transform, dag=dag)
-engineer_task = PythonOperator(task_id="feature_engineering", python_callable=task_engineer,  dag=dag)
-train_task    = PythonOperator(task_id="model_training",      python_callable=task_train,     dag=dag)
-evaluate_task = PythonOperator(task_id="model_evaluation",    python_callable=task_evaluate,  dag=dag)
+ingest_task    = PythonOperator(task_id="data_ingestion",      python_callable=task_ingest,    dag=dag)
+validate_task  = PythonOperator(task_id="data_validation",     python_callable=task_validate,  dag=dag)
+transform_task = PythonOperator(task_id="data_transformation", python_callable=task_transform, dag=dag)
+engineer_task  = PythonOperator(task_id="feature_engineering", python_callable=task_engineer,  dag=dag)
+train_task     = PythonOperator(task_id="model_training",      python_callable=task_train,     dag=dag)
+evaluate_task  = PythonOperator(task_id="model_evaluation",    python_callable=task_evaluate,  dag=dag)
 
 ingest_task >> validate_task >> transform_task >> engineer_task >> train_task >> evaluate_task

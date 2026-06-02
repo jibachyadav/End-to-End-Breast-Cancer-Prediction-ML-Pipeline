@@ -1,6 +1,6 @@
 """
-ETL Pipeline — Feature Engineering Module
-==========================================
+Feature Engineering Module
+===========================
 Reads the processed dataset from the database, applies feature selection
 and scaling, splits into train/test sets, and persists all artefacts to
 disk for consumption by the model-training stage.
@@ -49,9 +49,9 @@ CSV_SPLITS: list[tuple[str, str]] = [
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# EXTRACT
+# STEP 1 — LOAD PROCESSED DATA
 # ══════════════════════════════════════════════════════════════════════════════
-def extract() -> pd.DataFrame:
+def load_processed_data() -> pd.DataFrame:
     """
     Load the processed breast-cancer table from the database.
 
@@ -65,19 +65,19 @@ def extract() -> pd.DataFrame:
     sqlalchemy.exc.SQLAlchemyError
         If the database connection or query fails.
     """
-    logger.info(f"📥 EXTRACT — Reading from {PROCESSED_TABLE}...")
+    logger.info(f"📥 Loading processed data from {PROCESSED_TABLE}...")
 
     engine = get_engine()
     df: pd.DataFrame = pd.read_sql(f"SELECT * FROM {PROCESSED_TABLE}", con=engine)
 
-    log_success(logger, f"Extracted {len(df)} rows from {PROCESSED_TABLE}")
+    log_success(logger, f"Loaded {len(df)} rows from {PROCESSED_TABLE}")
     return df
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TRANSFORM
+# STEP 2 — ENGINEER FEATURES
 # ══════════════════════════════════════════════════════════════════════════════
-def transform(
+def engineer_features(
     df: pd.DataFrame,
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series, StandardScaler, SelectKBest, list[str]]:
     """
@@ -93,7 +93,7 @@ def transform(
     Parameters
     ----------
     df : pd.DataFrame
-        Processed DataFrame returned by ``extract()``.
+        Processed DataFrame returned by ``load_processed_data()``.
 
     Returns
     -------
@@ -112,7 +112,7 @@ def transform(
     selected_features : list[str]
         Names of the K selected columns.
     """
-    logger.info("🔄 TRANSFORM — Feature engineering...")
+    logger.info("🔄 Starting feature engineering...")
 
     # ── Step 1: Split features & target ───────────────────────────────────────
     logger.info("📌 STEP 1 — Splitting features and target...")
@@ -170,9 +170,9 @@ def transform(
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# LOAD
+# STEP 3 — SAVE ARTIFACTS
 # ══════════════════════════════════════════════════════════════════════════════
-def load(
+def save_artifacts(
     X_train         : pd.DataFrame,
     X_test          : pd.DataFrame,
     y_train         : pd.Series,
@@ -204,7 +204,7 @@ def load(
     selected_features : list[str]
         List of selected column names to serialise.
     """
-    logger.info("💾 LOAD — Saving artifacts...")
+    logger.info("💾 Saving artifacts to disk...")
 
     os.makedirs(ARTIFACTS_DIR, exist_ok=True)
     os.makedirs(ENCODERS_DIR,  exist_ok=True)
@@ -234,36 +234,37 @@ def load(
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# ETL PIPELINE
+# MAIN RUNNER
 # ══════════════════════════════════════════════════════════════════════════════
-def run_engineering() -> None:
+def run_feature_engineering() -> None:
     """
-    Orchestrate the full feature-engineering ETL: Extract → Transform → Load.
+    Orchestrate the full feature-engineering pipeline:
+        load_processed_data → engineer_features → save_artifacts
 
-    On success, logs a confirmation and signals readiness for ``train.py``.
+    On success, logs a confirmation and signals readiness for model training.
     On failure, logs the error with context and re-raises for the caller.
 
     Raises
     ------
     Exception
-        Any unhandled error from extract, transform, or load stages.
+        Any unhandled error from the pipeline steps.
     """
     try:
-        log_stage(logger, "FEATURE ENGINEERING — ETL")
+        log_stage(logger, "FEATURE ENGINEERING")
 
-        df: pd.DataFrame = extract()
+        df: pd.DataFrame = load_processed_data()
 
-        X_train, X_test, y_train, y_test, scaler, selector, selected_features = transform(df)
+        X_train, X_test, y_train, y_test, scaler, selector, selected_features = engineer_features(df)
 
-        load(X_train, X_test, y_train, y_test, scaler, selector, selected_features)
+        save_artifacts(X_train, X_test, y_train, y_test, scaler, selector, selected_features)
 
-        log_success(logger, "FEATURE ENGINEERING ETL COMPLETED ✅")
-        logger.info("   → Ready for train.py")
+        log_success(logger, "FEATURE ENGINEERING COMPLETED ✅")
+        logger.info("   → Ready for model training")
 
     except Exception as e:
-        log_error(logger, f"Feature Engineering ETL failed: {str(e)}")
+        log_error(logger, f"Feature Engineering failed: {str(e)}")
         raise
 
 
 if __name__ == "__main__":
-    run_engineering()
+    run_feature_engineering()

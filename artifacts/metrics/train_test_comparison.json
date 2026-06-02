@@ -14,11 +14,7 @@
             "precision": 0.893,
             "recall": 0.8638
         },
-        "gap": {
-            "accuracy": 0.0432,
-            "f1": 0.0459
-        },
-        "diagnosis": "\u2705 GOOD FIT  \u2014 train/test gap: 0.0432"
+        "diagnosis": "GOOD FIT \u2014 train/test gap: 0.0432"
     },
     "xgboost": {
         "cv_mean": 0.8918,
@@ -35,10 +31,6 @@
             "precision": 0.9057,
             "recall": 0.9276
         },
-        "gap": {
-            "accuracy": 0.0273,
-            "f1": 0.0283
-        },
-        "diagnosis": "\u2705 GOOD FIT  \u2014 train/test gap: 0.0273"
+        "diagnosis": "GOOD FIT \u2014 train/test gap: 0.0273"
     }
 }
