@@ -1,8 +1,6 @@
 # End-to-End Breast Cancer Survival Prediction ML Pipeline
 
-A production-grade, end-to-end Machine Learning pipeline for predicting breast cancer patient survival. Built with MLflow, Apache Airflow, Evidently, FastAPI, and Streamlit.
-
----
+ end-to-end Machine Learning pipeline for predicting breast cancer patient survival. Built with MLflow, Apache Airflow, Evidently, FastAPI, and Streamlit.
 
 ## Project Overview
 
@@ -17,8 +15,6 @@ The pipeline covers the full ML lifecycle:
 - Interactive frontend with Streamlit
 - Automated scheduling with Apache Airflow
 - Model and data drift monitoring with Evidently
-
----
 
 ## Project Structure
 
@@ -66,20 +62,18 @@ The pipeline covers the full ML lifecycle:
 
 ## Tech Stack
 
-| Component | Technology |
-|---|---|
-| Language | Python 3.13 |
-| ML Models | XGBoost, Random Forest, Logistic Regression |
-| Experiment Tracking | MLflow |
-| Orchestration | Apache Airflow |
-| Monitoring | Evidently AI |
-| API | FastAPI |
-| Frontend | Streamlit |
-| Database | MySQL + SQLAlchemy |
-| Caching | Redis |
-| Containerization | Docker |
+| Component | Technology 
+| Language | Python 3.13 
+| ML Models | XGBoost, Random Forest, Logistic Regression 
+| Experiment Tracking | MLflow 
+| Orchestration | Apache Airflow 
+| Monitoring | Evidently AI 
+| API | FastAPI 
+| Frontend | Streamlit 
+| Database MrariaDB 
+| Caching | Redis 
+| Containerization | Docker 
 
----
 
 ## How to Run
 
@@ -126,13 +120,12 @@ airflow standalone
 
 ## Model Performance
 
-| Metric | Score |
-|---|---|
-| Accuracy | 0.9156 |
-| Precision | 0.9060 |
-| Recall | 0.9280 |
-| F1 Score | 0.9165 |
-| ROC-AUC | — |
+| Metric | Score 
+| Accuracy | 0.9156 
+| Precision | 0.9060 
+| Recall | 0.9280 
+| F1 Score | 0.9165 
+| ROC-AUC 
 
 **Best Model:** XGBoost
 
@@ -140,10 +133,9 @@ airflow standalone
 
 ## Automated Pipeline (Airflow)
 
-| DAG | Schedule | Description |
-|---|---|---|
-| `breast_cancer_training_pipeline` | Weekly | Retrains and saves best model |
-| `breast_cancer_monitoring` | Daily | Checks for data drift and model performance |
+| DAG | Schedule | Description 
+| `breast_cancer_training_pipeline` | Weekly | Retrains and saves best model 
+| `breast_cancer_monitoring` | Daily | Checks for data drift and model performance 
 
 ---
 
