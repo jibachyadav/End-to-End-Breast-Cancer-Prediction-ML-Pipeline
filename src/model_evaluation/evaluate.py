@@ -1,17 +1,3 @@
-"""
-Model Evaluation Module
-========================
-Loads best model and test data, evaluates performance,
-and saves evaluation report to disk.
-
-Steps:
-    1. Load best model and test data
-    2. Generate predictions
-    3. Compute metrics
-    4. Build confusion matrix
-    5. Save evaluation report
-"""
-
 import os
 import sys
 import json
@@ -36,8 +22,8 @@ logger = get_logger(__name__)
 
 
 def load_model_and_data():
-    """Load best model and test data from artifacts"""
-    logger.info("Loading model and test data...")
+    
+    logger.info("Loading model and test data.")
 
     with open(os.path.join(MODELS_DIR, "best_model.pkl"), "rb") as f:
         model = pickle.load(f)
@@ -55,14 +41,14 @@ def load_model_and_data():
 
 
 def get_predictions(model, X_test):
-    """Generate predictions and probabilities"""
+    
     y_pred      = model.predict(X_test)
     y_pred_prob = model.predict_proba(X_test)[:, 1]
     return y_pred, y_pred_prob
 
 
 def compute_metrics(y_test, y_pred, y_pred_prob):
-    """Compute all evaluation metrics"""
+    
     return {
         "accuracy" : round(accuracy_score(y_test,  y_pred),      4),
         "precision": round(precision_score(y_test, y_pred),       4),
@@ -73,7 +59,7 @@ def compute_metrics(y_test, y_pred, y_pred_prob):
 
 
 def get_confusion_matrix(y_test, y_pred):
-    """Build confusion matrix"""
+    
     tn, fp, fn, tp = confusion_matrix(y_test, y_pred).ravel()
     return {
         "true_negative" : int(tn),
@@ -84,7 +70,7 @@ def get_confusion_matrix(y_test, y_pred):
 
 
 def log_confusion_matrix(cm):
-    """Log confusion matrix to console"""
+    
     logger.info("   Confusion Matrix:")
     logger.info(f"   TN={cm['true_negative']}  FP={cm['false_positive']}")
     logger.info(f"   FN={cm['false_negative']}  TP={cm['true_positive']}")
@@ -95,7 +81,7 @@ def log_confusion_matrix(cm):
 
 
 def save_report(report):
-    """Save evaluation report to JSON file"""
+    
     os.makedirs(LOGS_DIR, exist_ok=True)
     filename    = f"evaluation_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
     report_path = os.path.join(LOGS_DIR, filename)
@@ -114,7 +100,7 @@ def save_report(report):
 
 
 def run_evaluation():
-    """Evaluate best model on test data and save report."""
+    
     try:
         log_stage(logger, "MODEL EVALUATION")
 
@@ -122,23 +108,23 @@ def run_evaluation():
         model, model_name, X_test, y_test = load_model_and_data()
 
         # Generate predictions
-        logger.info("STEP 1 — Generating predictions...")
+        logger.info("STEP 1 — Generating predictions.")
         y_pred, y_pred_prob = get_predictions(model, X_test)
         log_success(logger, f"Predictions generated: {len(y_pred)} samples")
 
         # Compute metrics
-        logger.info("STEP 2 — Calculating metrics...")
+        logger.info("STEP 2 — Calculating metrics.")
         metrics = compute_metrics(y_test, y_pred, y_pred_prob)
         for name, value in metrics.items():
             log_success(logger, f"{name:<12}: {value:.4f}")
 
         # Confusion matrix
-        logger.info("STEP 3 — Confusion matrix...")
+        logger.info("STEP 3 — Confusion matrix.")
         cm = get_confusion_matrix(y_test, y_pred)
         log_confusion_matrix(cm)
 
         # Classification report
-        logger.info("STEP 4 — Classification report...")
+        logger.info("STEP 4 — Classification report.")
         report_str = classification_report(y_test, y_pred, target_names=["Dead", "Alive"])
         logger.info(f"\n{report_str}")
 
@@ -154,8 +140,8 @@ def run_evaluation():
         # Save report
         save_report(evaluation_report)
 
-        log_success(logger, "MODEL EVALUATION COMPLETED ✅")
-        logger.info("   → Report saved to logs/")
+        log_success(logger, "MODEL EVALUATION COMPLETED")
+        
 
     except Exception as e:
         log_error(logger, f"Evaluation failed: {str(e)}")

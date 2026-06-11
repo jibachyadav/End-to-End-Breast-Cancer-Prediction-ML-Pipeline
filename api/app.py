@@ -5,18 +5,17 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import datetime
+import pandas as pd
 
 from src.pipeline.prediction_pipeline import run_prediction_pipeline
 from src.logger.logger import get_logger
+from database.connection import get_engine
 
 logger = get_logger(__name__)
 
-# ══════════════════════════════════════════════════════════════════════════════
-# APP SETUP
-# ══════════════════════════════════════════════════════════════════════════════
 app = FastAPI(
     title       = "Breast Cancer Survival Prediction API",
     description = "Predicts breast cancer survival status using XGBoost model",
@@ -31,9 +30,6 @@ app.add_middleware(
     allow_headers     = ["*"],
 )
 
-# ══════════════════════════════════════════════════════════════════════════════
-# REQUEST & RESPONSE MODELS
-# ══════════════════════════════════════════════════════════════════════════════
 class PatientInput(BaseModel):
     age                    : float = Field(..., ge=1,   le=120, description="Patient age")
     race                   : str   = Field(..., description="White / Black / Other")
@@ -72,11 +68,37 @@ class PredictionResponse(BaseModel):
     warning         : Optional[str]
     timestamp       : str
 
-# ══════════════════════════════════════════════════════════════════════════════
-# ROUTES
-# ══════════════════════════════════════════════════════════════════════════════
+def save_prediction(patient_data, result):
+    """Save prediction result to MariaDB predictions table."""
+    try:
+        engine = get_engine()
+        record = {
+            "age"                    : patient_data["age"],
+            "race"                   : patient_data["race"],
+            "marital_status"         : patient_data["marital_status"],
+            "differentiate"          : patient_data["differentiate"],
+            "a_stage"                : patient_data["a_stage"],
+            "tumor_size"             : patient_data["tumor_size"],
+            "estrogen_status"        : patient_data["estrogen_status"],
+            "progesterone_status"    : patient_data["progesterone_status"],
+            "regional_node_examined" : patient_data["regional_node_examined"],
+            "regional_node_positive" : patient_data["regional_node_positive"],
+            "prediction"             : result["prediction"],
+            "confidence"             : result["confidence"],
+            "alive_prob"             : result["alive_prob"],
+            "dead_prob"              : result["dead_prob"],
+            "model_used"             : result["model_used"],
+            "timestamp"              : result["timestamp"]
+        }
+        pd.DataFrame([record]).to_sql(
+            "predictions", con=engine,
+            if_exists="append", index=False
+        )
+        logger.info(f"Prediction saved to database: {result['prediction']}")
+    except Exception as e:
+        logger.warning(f"Failed to save prediction: {str(e)}")
 
-# ── Health Check ──────────────────────────────────────────────────────────────
+
 @app.get("/")
 def root():
     return {
@@ -93,26 +115,25 @@ def health():
         "timestamp" : datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     }
 
-# ── Prediction ─────────────────────────────────────────────────────────────────
 @app.post("/predict", response_model=PredictionResponse)
 def predict(patient: PatientInput):
     """
     Predict breast cancer survival status.
-
     Accepts raw patient data from medical report.
     Returns prediction with confidence score.
+    Saves prediction to MariaDB predictions table.
     """
     try:
         logger.info(f"Prediction request received for age={patient.age}")
 
-        # Convert to dict
         raw_input = patient.model_dump()
 
-        # Run prediction pipeline
         result = run_prediction_pipeline(raw_input)
 
-        # Add timestamp
         result["timestamp"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+        # Save prediction to database
+        save_prediction(raw_input, result)
 
         return result
 
@@ -121,7 +142,6 @@ def predict(patient: PatientInput):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Prediction failed: {str(e)}")
 
-# ── Valid Options ──────────────────────────────────────────────────────────────
 @app.get("/options")
 def get_options():
     """Returns all valid input options for the form."""
@@ -138,3 +158,12 @@ def get_options():
         "estrogen_status"    : ["Positive", "Negative"],
         "progesterone_status": ["Positive", "Negative"]
     }
+@app.get("/predictions")
+def get_predictions():
+    """Returns all predictions from the database."""
+    try:
+        engine = get_engine()
+        df = pd.read_sql("SELECT * FROM predictions", engine)
+        return df.to_dict(orient="records")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch predictions: {str(e)}")

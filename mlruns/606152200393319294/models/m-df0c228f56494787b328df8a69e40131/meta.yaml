@@ -1,0 +1,10 @@
+artifact_location: /home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/mlruns/606152200393319294/models/m-df0c228f56494787b328df8a69e40131/artifacts
+creation_timestamp: 1780850214518
+experiment_id: '606152200393319294'
+last_updated_timestamp: 1780850217385
+model_id: m-df0c228f56494787b328df8a69e40131
+model_type: null
+name: xgboost
+source_run_id: 0cb040c3f83e44838b612be3428f753b
+status: 2
+status_message: null

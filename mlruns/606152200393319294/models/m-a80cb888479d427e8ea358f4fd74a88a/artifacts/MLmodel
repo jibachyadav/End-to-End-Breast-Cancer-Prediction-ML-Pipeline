@@ -1,0 +1,22 @@
+artifact_path: /home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/mlruns/606152200393319294/models/m-a80cb888479d427e8ea358f4fd74a88a/artifacts
+flavors:
+  python_function:
+    data: model.ubj
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.xgboost
+    python_version: 3.13.12
+  xgboost:
+    code: null
+    data: model.ubj
+    model_class: xgboost.sklearn.XGBClassifier
+    model_format: ubj
+    xgb_version: 3.2.0
+mlflow_version: 3.11.1
+model_id: m-a80cb888479d427e8ea358f4fd74a88a
+model_size_bytes: 301812
+model_uuid: m-a80cb888479d427e8ea358f4fd74a88a
+prompts: null
+run_id: d4192ef77d894ee69dc8d3e6ca14c024
+utc_time_created: '2026-06-05 03:24:21.855131'

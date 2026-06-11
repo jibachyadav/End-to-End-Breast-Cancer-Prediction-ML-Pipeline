@@ -37,8 +37,8 @@ def task_transform(**context):
     run_transformation()
 
 def task_engineer(**context):
-    from src.feature_engineering.engineering import run_engineering
-    run_engineering()
+    from src.feature_engineering.engineering import run_feature_engineering
+    run_feature_engineering()
 
 def task_train(**context):
     from src.model_training.train import run_training

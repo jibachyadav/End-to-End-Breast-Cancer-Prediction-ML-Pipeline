@@ -1,17 +1,3 @@
-"""
-Feature Engineering Module
-===========================
-Reads the processed dataset from the database, applies feature selection
-and scaling, splits into train/test sets, and persists all artefacts to
-disk for consumption by the model-training stage.
-
-Engineering steps (in order):
-    1. Split Features & Target  — separate X and y
-    2. Feature Selection        — ANOVA F-score (SelectKBest) top-K columns
-    3. Train / Test Split       — stratified hold-out with fixed random seed
-    4. Scaling                  — StandardScaler fitted on train, applied to both
-"""
-
 import pandas as pd
 import numpy as np
 import sys
@@ -27,9 +13,10 @@ from src.constants.constants import (
     PROCESSED_TABLE, TARGET_COL, TEST_SIZE,
     RANDOM_STATE, TOP_K_FEATURES, ARTIFACTS_DIR, ENCODERS_DIR
 )
+from redis_cache.cache import from_redis
 from src.logger.logger import get_logger, log_stage, log_success, log_warning, log_error
 
-# ── Logger ─────────────────────────────────────────────────────────────────────
+#Logger
 logger = get_logger(__name__)
 
 # Artefacts written to ENCODERS_DIR as pickle files
@@ -48,24 +35,12 @@ CSV_SPLITS: list[tuple[str, str]] = [
 ]
 
 
-# ══════════════════════════════════════════════════════════════════════════════
+
 # STEP 1 — LOAD PROCESSED DATA
-# ══════════════════════════════════════════════════════════════════════════════
+
 def load_processed_data() -> pd.DataFrame:
-    """
-    Load the processed breast-cancer table from the database.
-
-    Returns
-    -------
-    pd.DataFrame
-        All rows from PROCESSED_TABLE with column names preserved.
-
-    Raises
-    ------
-    sqlalchemy.exc.SQLAlchemyError
-        If the database connection or query fails.
-    """
-    logger.info(f"📥 Loading processed data from {PROCESSED_TABLE}...")
+    
+    logger.info(f"Loading processed data from {PROCESSED_TABLE}.")
 
     engine = get_engine()
     df: pd.DataFrame = pd.read_sql(f"SELECT * FROM {PROCESSED_TABLE}", con=engine)
@@ -74,58 +49,24 @@ def load_processed_data() -> pd.DataFrame:
     return df
 
 
-# ══════════════════════════════════════════════════════════════════════════════
+
 # STEP 2 — ENGINEER FEATURES
-# ══════════════════════════════════════════════════════════════════════════════
+
 def engineer_features(
     df: pd.DataFrame,
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series, StandardScaler, SelectKBest, list[str]]:
-    """
-    Apply feature selection, train/test splitting, and scaling to the dataset.
+    
+    logger.info("Starting feature engineering.")
 
-    Steps
-    -----
-    1. Separate feature matrix X from target vector y.
-    2. Select the top ``TOP_K_FEATURES`` columns via ANOVA F-score.
-    3. Split into stratified train / test sets.
-    4. Fit a StandardScaler on the training set and transform both sets.
-
-    Parameters
-    ----------
-    df : pd.DataFrame
-        Processed DataFrame returned by ``load_processed_data()``.
-
-    Returns
-    -------
-    X_train_scaled : pd.DataFrame
-        Scaled training features.
-    X_test_scaled : pd.DataFrame
-        Scaled test features.
-    y_train : pd.Series
-        Training labels.
-    y_test : pd.Series
-        Test labels.
-    scaler : StandardScaler
-        Fitted scaler (persisted for inference).
-    selector : SelectKBest
-        Fitted feature selector (persisted for inference).
-    selected_features : list[str]
-        Names of the K selected columns.
-    """
-    logger.info("🔄 Starting feature engineering...")
-
-    # ── Step 1: Split features & target ───────────────────────────────────────
-    logger.info("📌 STEP 1 — Splitting features and target...")
+    # Step 1: Split features & target 
+    logger.info("STEP 1 — Splitting features and target.")
 
     X: pd.DataFrame = df.drop(columns=[TARGET_COL])
     y: pd.Series    = df[TARGET_COL]
 
     log_success(logger, f"Features: {X.shape} | Target: {y.shape}")
 
-    # ── Step 2: Feature Selection (ANOVA F-score) ─────────────────────────────
-    # SelectKBest ranks each feature by its F-statistic against the target;
-    # only the top TOP_K_FEATURES columns are retained.
-    logger.info(f"📌 STEP 2 — Selecting top {TOP_K_FEATURES} features...")
+    logger.info(f"📌 STEP 2 — Selecting top {TOP_K_FEATURES} features.")
 
     selector  : SelectKBest = SelectKBest(score_func=f_classif, k=TOP_K_FEATURES)
     X_selected: np.ndarray  = selector.fit_transform(X, y)
@@ -141,9 +82,8 @@ def engineer_features(
     X = pd.DataFrame(X_selected, columns=selected_features)
     log_success(logger, f"Selected features: {selected_features}")
 
-    # ── Step 3: Train / Test Split ────────────────────────────────────────────
-    # Stratify on y so class proportions are preserved in both splits
-    logger.info("📌 STEP 3 — Train/Test split...")
+    
+    logger.info("STEP 3 — Train/Test split.")
 
     X_train, X_test, y_train, y_test = train_test_split(
         X, y,
@@ -153,9 +93,8 @@ def engineer_features(
     )
     log_success(logger, f"Train: {X_train.shape[0]} | Test: {X_test.shape[0]}")
 
-    # ── Step 4: Scaling (StandardScaler) ──────────────────────────────────────
-    # Fit only on the training set to prevent data leakage into the test set
-    logger.info("📌 STEP 4 — Scaling features...")
+   
+    logger.info("STEP 4 — Scaling features.")
 
     scaler        : StandardScaler = StandardScaler()
     X_train_scaled: pd.DataFrame   = pd.DataFrame(
@@ -169,9 +108,9 @@ def engineer_features(
     return X_train_scaled, X_test_scaled, y_train, y_test, scaler, selector, selected_features
 
 
-# ══════════════════════════════════════════════════════════════════════════════
+
 # STEP 3 — SAVE ARTIFACTS
-# ══════════════════════════════════════════════════════════════════════════════
+
 def save_artifacts(
     X_train         : pd.DataFrame,
     X_test          : pd.DataFrame,
@@ -181,30 +120,8 @@ def save_artifacts(
     selector        : SelectKBest,
     selected_features: list[str],
 ) -> None:
-    """
-    Persist all train/test splits and fitted artefacts to disk.
-
-    Splits are saved as CSV files to ARTIFACTS_DIR.
-    Fitted objects (scaler, selector, feature list) are pickled to ENCODERS_DIR.
-
-    Parameters
-    ----------
-    X_train : pd.DataFrame
-        Scaled training features.
-    X_test : pd.DataFrame
-        Scaled test features.
-    y_train : pd.Series
-        Training labels.
-    y_test : pd.Series
-        Test labels.
-    scaler : StandardScaler
-        Fitted scaler to serialise.
-    selector : SelectKBest
-        Fitted feature selector to serialise.
-    selected_features : list[str]
-        List of selected column names to serialise.
-    """
-    logger.info("💾 Saving artifacts to disk...")
+    
+    logger.info("Saving artifacts to disk.")
 
     os.makedirs(ARTIFACTS_DIR, exist_ok=True)
     os.makedirs(ENCODERS_DIR,  exist_ok=True)
@@ -233,22 +150,11 @@ def save_artifacts(
         log_success(logger, f"{filename} saved → {path}")
 
 
-# ══════════════════════════════════════════════════════════════════════════════
+
 # MAIN RUNNER
-# ══════════════════════════════════════════════════════════════════════════════
+
 def run_feature_engineering() -> None:
-    """
-    Orchestrate the full feature-engineering pipeline:
-        load_processed_data → engineer_features → save_artifacts
-
-    On success, logs a confirmation and signals readiness for model training.
-    On failure, logs the error with context and re-raises for the caller.
-
-    Raises
-    ------
-    Exception
-        Any unhandled error from the pipeline steps.
-    """
+    
     try:
         log_stage(logger, "FEATURE ENGINEERING")
 
@@ -258,7 +164,7 @@ def run_feature_engineering() -> None:
 
         save_artifacts(X_train, X_test, y_train, y_test, scaler, selector, selected_features)
 
-        log_success(logger, "FEATURE ENGINEERING COMPLETED ✅")
+        log_success(logger, "FEATURE ENGINEERING COMPLETED")
         logger.info("   → Ready for model training")
 
     except Exception as e:

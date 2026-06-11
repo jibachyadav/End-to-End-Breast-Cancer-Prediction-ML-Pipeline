@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
 
@@ -15,9 +15,46 @@ services:
       - ../mlruns:/app/mlruns
     environment:
       - PYTHONUNBUFFERED=1
+      - DB_HOST=mariadb
+      - DB_PORT=3306
     depends_on:
       - mariadb
       - redis
+    restart: always
+
+  streamlit:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: breast_cancer_streamlit
+    ports:
+      - "8501:8501"
+    volumes:
+      - ../artifacts:/app/artifacts
+      - ../logs:/app/logs
+    command: streamlit run frontend/app.py --server.port 8501 --server.address 0.0.0.0
+    environment:
+      - PYTHONUNBUFFERED=1
+      - FASTAPI_URL=http://app:8000
+      - DB_HOST=mariadb
+      - DB_PORT=3306
+    depends_on:
+      - app
+    restart: always
+
+  mlflow:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: breast_cancer_mlflow
+    ports:
+      - "5000:5000"
+    volumes:
+      - ../mlruns:/app/mlruns
+    command: mlflow ui --host 0.0.0.0 --port 5000
+    environment:
+      - PYTHONUNBUFFERED=1
+      - MLFLOW_ALLOW_FILE_STORE=true
     restart: always
 
   mariadb:

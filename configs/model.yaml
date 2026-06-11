@@ -1,11 +1,11 @@
-# ══════════════════════════════════════════════════════
+
 # MODEL CONFIGURATION
-# ══════════════════════════════════════════════════════
+
 
 training:
   test_size:    0.2
   random_state: 42
-  cv_folds:     5        # cross validation folds
+  cv_folds:     5        
 
 models:
   logistic_regression:
@@ -40,7 +40,7 @@ models:
       C:           1.0
 
 evaluation:
-  primary_metric: f1        # best model selected by this
+  primary_metric: f1        
   metrics:
     - accuracy
     - precision

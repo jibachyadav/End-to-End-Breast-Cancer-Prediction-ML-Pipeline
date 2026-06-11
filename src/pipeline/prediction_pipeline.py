@@ -13,11 +13,11 @@ from src.constants.constants import (
 
 logger = get_logger(__name__)
 
-# ══════════════════════════════════════════════════════════════════════════════
+
 # NORMALIZE INPUT
-# ══════════════════════════════════════════════════════════════════════════════
+
 def normalize_input(raw: dict) -> dict:
-    logger.info("🔄 Normalizing input...")
+    logger.info("Normalizing input.")
 
     def match(value, mapping, field):
         key = str(value).strip().lower()
@@ -50,11 +50,10 @@ def normalize_input(raw: dict) -> dict:
     log_success(logger, "Input normalized successfully")
     return normalized
 
-# ══════════════════════════════════════════════════════════════════════════════
+
 # VALIDATE INPUT
-# ══════════════════════════════════════════════════════════════════════════════
 def validate_input(data: dict) -> None:
-    logger.info("🔍 Validating input...")
+    logger.info("Validating input.")
 
     # Required fields
     REQUIRED_FIELDS = list(NUMBER_RANGES.keys()) + [
@@ -82,11 +81,10 @@ def validate_input(data: dict) -> None:
             f"cannot exceed 'regional_node_examined' ({data['regional_node_examined']})"
         )
     log_success(logger, "Cross-field check passed")
-    log_success(logger, "Input validation passed ✅")
+    log_success(logger, "Input validation passed")
 
-# ══════════════════════════════════════════════════════════════════════════════
+
 # COLLECT USER INPUT
-# ══════════════════════════════════════════════════════════════════════════════
 def collect_user_input() -> dict:
     print("\n" + "="*55)
     print("  BREAST CANCER SURVIVAL PREDICTION")
@@ -158,27 +156,26 @@ def collect_user_input() -> dict:
     print()
     return raw
 
-# ══════════════════════════════════════════════════════════════════════════════
+
 # PREDICTION PIPELINE
-# ══════════════════════════════════════════════════════════════════════════════
 def run_prediction_pipeline(raw_input: dict) -> dict:
     try:
         logger.info("=" * 55)
-        logger.info("🚀 PREDICTION PIPELINE STARTED")
-        logger.info(f"⏰ {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        logger.info("PREDICTION PIPELINE STARTED")
+        logger.info(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         logger.info("=" * 55)
 
         log_stage(logger, "STEP 1 — NORMALIZE INPUT")
         data = normalize_input(raw_input)
-        log_success(logger, "Step 1 Complete ✅")
+        log_success(logger, "Step 1 Complete")
 
         log_stage(logger, "STEP 2 — VALIDATE INPUT")
         validate_input(data)
-        log_success(logger, "Step 2 Complete ✅")
+        log_success(logger, "Step 2 Complete")
 
         log_stage(logger, "STEP 3 — PREDICTION")
         result = predict(data)
-        log_success(logger, "Step 3 Complete ✅")
+        log_success(logger, "Step 3 Complete")
 
         log_stage(logger, "STEP 4 — REVIEW RESULT")
         confidence_val = float(str(result.get("confidence", "0")).replace("%", "").strip())
@@ -188,10 +185,10 @@ def run_prediction_pipeline(raw_input: dict) -> dict:
         else:
             result["warning"] = None
             log_success(logger, f"High confidence ({confidence_val:.1f}%)")
-        log_success(logger, "Step 4 Complete ✅")
+        log_success(logger, "Step 4 Complete")
 
         logger.info("=" * 55)
-        log_success(logger, "🎉 PREDICTION PIPELINE COMPLETED")
+        log_success(logger, "PREDICTION PIPELINE COMPLETED")
         logger.info(f"   Prediction  : {result['prediction']}")
         logger.info(f"   Confidence  : {confidence_val:.1f}%")
         logger.info("=" * 55)
@@ -205,9 +202,9 @@ def run_prediction_pipeline(raw_input: dict) -> dict:
         log_error(logger, f"Pipeline failed: {str(e)}")
         raise
 
-# ══════════════════════════════════════════════════════════════════════════════
+
 # MAIN
-# ══════════════════════════════════════════════════════════════════════════════
+
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Breast Cancer Survival Predictor")
@@ -312,11 +309,11 @@ if __name__ == "__main__":
                     for k, v in result.items():
                         if v is not None:
                             print(f"    {k:<22} : {v}")
-                    print("  PASS ✅")
+                    print("  PASS")
                     passed += 1
             except ValueError as e:
                 if t["expect_error"]:
-                    print(f"  PASS ✅ — correctly caught: {e}")
+                    print(f"  PASS — correctly caught: {e}")
                     passed += 1
                 else:
                     print(f"  FAIL — unexpected error: {e}")

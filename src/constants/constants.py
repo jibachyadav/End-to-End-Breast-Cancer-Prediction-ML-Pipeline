@@ -59,8 +59,6 @@ MLFLOW_TRACKING_URI = CONFIG['mlflow']['tracking_uri']
 MLFLOW_EXPERIMENT   = CONFIG['mlflow']['experiment_name']
 
 
-
-
 # PIPELINE CONTROL
 RUN_INGESTION      = CONFIG['pipeline']['run_ingestion']
 RUN_VALIDATION     = CONFIG['pipeline']['run_validation']
@@ -79,7 +77,6 @@ CONFIDENCE_THRESHOLD    = CONFIG['prediction']['confidence_threshold']
 
 
 # Prediction Constants
-
 PREDICTION_LABELS = {
     0: "Dead",
     1: "Alive"
@@ -96,3 +93,4 @@ DIFFERENTIATE_MAP    = PREDICTION_MAPS['differentiate']
 ASTAGE_MAP           = PREDICTION_MAPS['a_stage']
 STATUS_MAP           = PREDICTION_MAPS['status']
 NUMBER_RANGES        = PREDICTION_MAPS['number_ranges']
+

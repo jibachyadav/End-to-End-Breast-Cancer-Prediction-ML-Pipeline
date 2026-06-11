@@ -1,0 +1,23 @@
+artifact_path: /home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/mlruns/606152200393319294/models/m-74a88fa155cc44fea0532baa33895643/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.13.12
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.6.1
+    skops_trusted_types: null
+mlflow_version: 3.11.1
+model_id: m-74a88fa155cc44fea0532baa33895643
+model_size_bytes: 3820521
+model_uuid: m-74a88fa155cc44fea0532baa33895643
+prompts: null
+run_id: d79a081d07864914b5e1ea7c8fa3d274
+utc_time_created: '2026-06-05 03:24:19.080749'

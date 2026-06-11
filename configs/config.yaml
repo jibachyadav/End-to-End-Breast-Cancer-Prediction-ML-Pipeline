@@ -1,8 +1,6 @@
-# ══════════════════════════════════════════════════════
-# BREAST CANCER PREDICTION PIPELINE — CONFIG
-# ══════════════════════════════════════════════════════
 
-# ── Database ───────────────────────────────────────────
+
+#Database
 database:
   host:     localhost
   port:     3306
@@ -10,13 +8,13 @@ database:
   user:     bc_user
   password: bc_password123
 
-# ── Data ───────────────────────────────────────────────
+#Data 
 data:
   raw_table:       breast_cancer_raw
   processed_table: breast_cancer_processed
   raw_path:        data/raw/Breast_Cancer.csv
 
-# ── Validation ─────────────────────────────────────────
+#Validation
 validation:
   imbalance_threshold: 0.20
   skew_threshold:      1.0
@@ -56,7 +54,7 @@ validation:
     - progesterone_status
     - status
 
-# ── Transformation ─────────────────────────────────────
+#Transformation 
 transformation:
   target_col: status
   drop_cols:
@@ -84,7 +82,7 @@ transformation:
     Dead:  0
   smote_random_state: 42
 
-# ── Feature Engineering ────────────────────────────────
+#Feature Engineering
 feature_engineering:
   target_col:      status
   test_size:       0.2
@@ -92,7 +90,7 @@ feature_engineering:
   top_k_features:  10
   artifacts_dir:   artifacts/
 
-# ── Model Training ─────────────────────────────────────
+#Model Training
 model:
   random_state: 42
   artifacts_dir: artifacts/models/
@@ -111,7 +109,7 @@ model:
       kernel: rbf
       probability: true
 
-# ── Evaluation ─────────────────────────────────────────
+# Evaluation
 evaluation:
   metrics:
     - accuracy
@@ -121,7 +119,7 @@ evaluation:
     - roc_auc
   report_dir: logs/
 
-# ── Paths ──────────────────────────────────────────────
+#Paths
 paths:
   artifacts:  artifacts/
   encoders:   artifacts/encoders/
@@ -130,13 +128,13 @@ paths:
   reports:    logs/
 
 
-# ── MLflow ─────────────────────────────────────────────
+#MLflow
 mlflow:
   tracking_uri: mlruns
   experiment_name: breast_cancer_prediction
 
 
-# ── Pipeline Control ───────────────────────────────────────
+#Pipeline Control
 pipeline:
   run_ingestion:      true
   run_validation:     true
@@ -145,7 +143,7 @@ pipeline:
   run_training:       true
   run_evaluation:     true
 
-  # ── Prediction ─────────────────────────────────────────
+  # Prediction
 prediction:
   target_mapping:
     0: Dead
@@ -153,7 +151,7 @@ prediction:
   confidence_threshold: 0.50
 
 
-# ── Prediction Input Maps ──────────────────────────────
+#Prediction Input Maps
 prediction_maps:
   race:
     white: White

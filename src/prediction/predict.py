@@ -16,11 +16,11 @@ logger = get_logger(__name__)
 # Columns that need log transformation (same as transform.py)
 LOG_TRANSFORM_COLS = ['tumor_size', 'regional_node_positive']
 
-# ══════════════════════════════════════════════════════════════════════════════
+
 # LOAD ARTIFACTS
-# ══════════════════════════════════════════════════════════════════════════════
+
 def load_artifacts():
-    logger.info("📦 Loading model and encoders...")
+    logger.info("Loading model and encoders.")
 
     with open(os.path.join(MODELS_DIR, 'best_model.pkl'), 'rb') as f:
         model = pickle.load(f)
@@ -42,18 +42,15 @@ def load_artifacts():
     log_success(logger, f"Label encoders loaded: {list(label_encoders.keys())}")
     return model, scaler, selected_features, label_encoders, model_name
 
-# ══════════════════════════════════════════════════════════════════════════════
+
 # ENCODE RAW INPUT
-# ══════════════════════════════════════════════════════════════════════════════
+
 def encode_input(raw_input: dict, label_encoders: dict) -> dict:
-    """
-    Converts raw doctor input to encoded format
-    using saved LabelEncoders from transform.py
-    """
-    logger.info("🔄 Encoding raw input...")
+    
+    logger.info("Encoding raw input.")
     encoded = raw_input.copy()
 
-    # ── Label encode categorical columns ──────────────────────────────────
+    
     for col, le in label_encoders.items():
         if col in encoded:
             raw_val = str(encoded[col])
@@ -65,7 +62,7 @@ def encode_input(raw_input: dict, label_encoders: dict) -> dict:
             encoded[col] = int(le.transform([raw_val])[0])
             logger.info(f"   {col}: '{raw_val}' → {encoded[col]}")
 
-    # ── Log transform skewed columns ──────────────────────────────────────
+    
     for col in LOG_TRANSFORM_COLS:
         if col in encoded:
             raw_val = encoded[col]
@@ -75,9 +72,9 @@ def encode_input(raw_input: dict, label_encoders: dict) -> dict:
     log_success(logger, "Input encoded successfully")
     return encoded
 
-# ══════════════════════════════════════════════════════════════════════════════
+
 # PREDICT
-# ══════════════════════════════════════════════════════════════════════════════
+
 def predict(raw_input: dict) -> dict:
     """
     Takes RAW patient data from doctor's report and returns prediction.
@@ -99,30 +96,30 @@ def predict(raw_input: dict) -> dict:
     try:
         log_stage(logger, "PREDICTION")
 
-        # ── Step 1: Load artifacts ─────────────────────────────────────────
+        # Load artifacts 
         model, scaler, selected_features, label_encoders, model_name = load_artifacts()
 
-        # ── Step 2: Encode raw input ───────────────────────────────────────
+        #  Encode raw input 
         encoded_input = encode_input(raw_input, label_encoders)
 
-        # ── Step 3: Convert to DataFrame ──────────────────────────────────
-        logger.info("📋 Preparing input data...")
+        # Convert to DataFrame 
+        logger.info("Preparing input data.")
         df = pd.DataFrame([encoded_input])
 
-        # ── Step 4: Check all features present ────────────────────────────
+        # Check all features present 
         missing = [f for f in selected_features if f not in df.columns]
         if missing:
             raise ValueError(f"Missing features: {missing}")
 
-        # ── Step 5: Select correct feature order ──────────────────────────
+        # Select correct feature order 
         df = df[selected_features]
         logger.info(f"   Input shape: {df.shape}")
 
-        # ── Step 6: Scale features ─────────────────────────────────────────
+        # Scale features 
         df_scaled = scaler.transform(df)
         log_success(logger, "Features scaled successfully")
 
-        # ── Step 7: Predict ────────────────────────────────────────────────
+        #Predict 
         prediction  = model.predict(df_scaled)[0]
         probability = model.predict_proba(df_scaled)[0]
         pred_label  = "Alive" if prediction == 1 else "Dead"
@@ -130,12 +127,12 @@ def predict(raw_input: dict) -> dict:
         alive_prob  = round(float(probability[1]) * 100, 2)
         dead_prob   = round(float(probability[0]) * 100, 2)
 
-        # ── Step 8: Confidence check ───────────────────────────────────────
+        #Confidence check 
         is_high_confidence = confidence >= CONFIDENCE_THRESHOLD * 100
         if not is_high_confidence:
             log_warning(logger, f"Low confidence prediction: {confidence}%")
 
-        # ── Step 9: Return result ──────────────────────────────────────────
+        # Return result 
         result = {
             "prediction"      : pred_label,
             "confidence"      : f"{confidence}%",
@@ -156,9 +153,9 @@ def predict(raw_input: dict) -> dict:
         log_error(logger, f"Prediction failed: {str(e)}")
         raise
 
-# ══════════════════════════════════════════════════════════════════════════════
+
 # TEST — Sample Prediction with RAW input
-# ══════════════════════════════════════════════════════════════════════════════
+
 if __name__ == "__main__":
 
     # Raw patient data — exactly like doctor's report
@@ -176,7 +173,7 @@ if __name__ == "__main__":
     }
 
     print("\n" + "="*55)
-    print("🏥 BREAST CANCER SURVIVAL PREDICTION")
+    print("BREAST CANCER SURVIVAL PREDICTION")
     print("="*55)
     print("Patient Data (from medical report):")
     for k, v in sample_patient.items():
@@ -185,7 +182,7 @@ if __name__ == "__main__":
 
     result = predict(sample_patient)
 
-    print("\n📊 PREDICTION RESULT:")
+    print("\nPREDICTION RESULT:")
     print("="*55)
     for k, v in result.items():
         print(f"  {k:<20} : {v}")

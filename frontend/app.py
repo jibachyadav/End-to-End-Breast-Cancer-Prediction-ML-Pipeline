@@ -1,6 +1,3 @@
-"""
-Breast Cancer Survival Prediction — Streamlit Frontend
-"""
 
 import streamlit as st
 import requests
@@ -54,10 +51,9 @@ if st.button("Predict Survival", use_container_width=True, type="primary"):
 
         try:
             with st.spinner("Analyzing patient data..."):
-                response = requests.post(
-                    "http://127.0.0.1:8000/predict",
-                    json=patient_data
-                )
+                API_URL = os.getenv("FASTAPI_URL", "http://127.0.0.1:8000")
+                response = requests.post(f"{API_URL}/predict", json=patient_data)
+                
 
             if response.status_code == 200:
                 result = response.json()
@@ -104,3 +100,27 @@ if st.button("Predict Survival", use_container_width=True, type="primary"):
 
         except Exception as e:
             st.error("Connection Error: Make sure FastAPI is running!")
+# Predictions History
+
+# Predictions History
+st.divider()
+st.subheader("📊 Predictions History")
+
+
+# Predictions History
+st.divider()
+try:
+    import pandas as pd
+    API_URL = os.getenv("FASTAPI_URL", "http://127.0.0.1:8000")
+    resp = requests.get(f"{API_URL}/predictions")
+    if resp.status_code == 200:
+        df = pd.DataFrame(resp.json())
+        csv = df.to_csv(index=False)
+        st.download_button(
+            label="⬇️ Download Predictions CSV",
+            data=csv,
+            file_name="predictions.csv",
+            mime="text/csv"
+        )
+except Exception as e:
+    st.warning(f"Could not load predictions: {e}")

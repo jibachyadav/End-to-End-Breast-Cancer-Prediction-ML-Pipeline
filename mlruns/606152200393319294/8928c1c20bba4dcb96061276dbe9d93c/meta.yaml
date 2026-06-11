@@ -1,0 +1,14 @@
+artifact_uri: /home/jibach/End-to-End-Breast-Cancer-Prediction-ML-Pipeline/mlruns/606152200393319294/8928c1c20bba4dcb96061276dbe9d93c/artifacts
+end_time: 1780850519448
+entry_point_name: ''
+experiment_id: '606152200393319294'
+lifecycle_stage: active
+run_id: 8928c1c20bba4dcb96061276dbe9d93c
+run_name: xgboost
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1780850515813
+status: 3
+tags: []
+user_id: jibach

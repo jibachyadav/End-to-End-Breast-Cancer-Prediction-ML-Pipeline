@@ -1,9 +1,3 @@
-"""
-Data Validation Module
-=======================
-Reads raw data from database and runs data quality checks.
-"""
-
 import pandas as pd
 import numpy as np
 import json
@@ -19,6 +13,7 @@ from src.constants.constants import (
     CATEGORICAL_COLS_VAL, IMBALANCE_THRESHOLD,
     SKEW_THRESHOLD, LOGS_DIR
 )
+from redis_cache.cache import from_redis
 from src.logger.logger import get_logger, log_stage, log_success, log_warning, log_error
 
 logger = get_logger(__name__)
@@ -28,8 +23,7 @@ IQR_MULTIPLIER = 1.5
 
 
 def check_schema(df, report):
-    """Check 1 - all expected columns are present"""
-    logger.info("CHECK 1 — Schema...")
+    
     missing_cols = [c for c in EXPECTED_COLUMNS if c not in df.columns]
     extra_cols   = [c for c in df.columns if c not in EXPECTED_COLUMNS]
     schema_ok    = len(missing_cols) == 0
@@ -47,8 +41,8 @@ def check_schema(df, report):
 
 
 def check_nulls(df, report):
-    """Check 2 - no missing values"""
-    logger.info("CHECK 2 — Nulls...")
+    
+    logger.info("CHECK 2 — Nulls.")
     nulls = df.isnull().sum()
     nulls = nulls[nulls > 0].to_dict()
 
@@ -64,8 +58,7 @@ def check_nulls(df, report):
 
 
 def check_duplicates(df, report):
-    """Check 3 - no duplicate rows"""
-    logger.info("CHECK 3 — Duplicates...")
+    
     dups = int(df.duplicated().sum())
 
     report["checks"]["duplicates"] = {
@@ -80,8 +73,7 @@ def check_duplicates(df, report):
 
 
 def check_imbalance(df, report):
-    """Check 4 - class balance"""
-    logger.info("CHECK 4 — Class Imbalance...")
+    
     counts       = df["status"].value_counts().to_dict()
     total        = len(df)
     minority_pct = min(counts.values()) / total
@@ -100,8 +92,7 @@ def check_imbalance(df, report):
 
 
 def check_skewness(df, report):
-    """Check 5 - skewness of numerical columns"""
-    logger.info("CHECK 5 — Skewness...")
+    
     skew_results = {}
 
     for col in NUMERICAL_COLS:
@@ -119,8 +110,7 @@ def check_skewness(df, report):
 
 
 def check_outliers(df, report):
-    """Check 6 - outliers using IQR method"""
-    logger.info("CHECK 6 — Outliers...")
+    
     outlier_results = {}
 
     for col in OUTLIER_COLS:
@@ -149,8 +139,7 @@ def check_outliers(df, report):
 
 
 def check_datatypes(df, report):
-    """Check 7 - correct data types"""
-    logger.info("CHECK 7 — Data Types...")
+    
     dtype_issues = []
 
     for col in NUMERICAL_COLS:
@@ -174,8 +163,7 @@ def check_datatypes(df, report):
 
 
 def check_survival_months(df, report):
-    """Check 8 - survival months column"""
-    logger.info("CHECK 8 — Survival Months...")
+    
     has_survival = "survival_months" in df.columns
 
     report["checks"]["survival_months"] = {
@@ -189,7 +177,7 @@ def check_survival_months(df, report):
 
 
 def save_report(report):
-    """Save validation report to JSON file"""
+    
     os.makedirs(LOGS_DIR, exist_ok=True)
     timestamp   = datetime.now().strftime("%Y%m%d_%H%M%S")
     report_path = os.path.join(LOGS_DIR, f"validation_report_{timestamp}.json")
@@ -201,15 +189,20 @@ def save_report(report):
 
 
 def run_validation():
-    """Run all data quality checks on raw data from database."""
+    
     try:
         log_stage(logger, "DATA VALIDATION")
 
         # Read data from database
-        logger.info(f"Reading from {RAW_TABLE}...")
-        engine = get_engine()
-        df = pd.read_sql(f"SELECT * FROM {RAW_TABLE}", con=engine)
-        log_success(logger, f"Loaded {len(df)} rows from {RAW_TABLE}")
+        logger.info("Reading data...")
+        df = from_redis("bc_raw_data")
+        if df is not None:
+            log_success(logger, f"Redis hit — loaded {len(df)} rows from cache")
+        else:
+            logger.info("Redis miss — reading from MariaDB.")
+            engine = get_engine()
+            df = pd.read_sql(f"SELECT * FROM {RAW_TABLE}", con=engine)
+            log_success(logger, f"Loaded {len(df)} rows from {RAW_TABLE}")
 
         # Initialize report
         report = {
@@ -232,8 +225,8 @@ def run_validation():
         # Save report
         save_report(report)
 
-        log_success(logger, "DATA VALIDATION COMPLETED ✅")
-        logger.info("   → Ready for transform.py")
+        log_success(logger, "DATA VALIDATION COMPLETED")
+        
 
     except Exception as e:
         log_error(logger, f"Validation failed: {str(e)}")

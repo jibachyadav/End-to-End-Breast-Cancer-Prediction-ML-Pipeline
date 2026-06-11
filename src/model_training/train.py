@@ -1,18 +1,3 @@
-"""
-Model Training Module
-======================
-Reads train/test data from artifacts, trains multiple models,
-tracks experiments with MLflow, and saves the best model.
-
-Steps:
-    1. Load train/test data from artifacts
-    2. Build all models
-    3. Train each model with cross validation
-    4. Track metrics with MLflow
-    5. Select best model
-    6. Save all models and metrics
-"""
-
 import os
 import sys
 import json
@@ -50,8 +35,8 @@ UNDERFIT_THRESHOLD    = 0.80
 
 
 def load_data():
-    """Load train/test splits from artifacts folder"""
-    logger.info("Loading train/test data from artifacts...")
+    
+    logger.info("Loading train/test data from artifacts.")
 
     X_train = pd.read_csv(os.path.join(ARTIFACTS_DIR, "X_train.csv"))
     X_test  = pd.read_csv(os.path.join(ARTIFACTS_DIR, "X_test.csv"))
@@ -63,7 +48,7 @@ def load_data():
 
 
 def build_models():
-    """Build all models from config"""
+    
     models = {}
 
     if MODELS_CONFIG["logistic_regression"]["enabled"]:
@@ -97,7 +82,7 @@ def build_models():
 
 
 def compute_metrics(model, X, y):
-    """Compute accuracy, f1, precision, recall for a model"""
+   
     preds = model.predict(X)
     return {
         "accuracy" : round(accuracy_score(y, preds), 4),
@@ -109,7 +94,7 @@ def compute_metrics(model, X, y):
 
 
 def diagnose_fit(train_acc, test_acc):
-    """Diagnose if model is overfitting or underfitting"""
+    
     gap = train_acc - test_acc
     if gap > OVERFITTING_THRESHOLD:
         return f"OVERFIT — train/test gap: {gap:.4f}"
@@ -120,8 +105,8 @@ def diagnose_fit(train_acc, test_acc):
 
 
 def train_all_models(X_train, X_test, y_train, y_test):
-    """Train all models and track with MLflow"""
-    logger.info("Training all models with MLflow tracking...")
+    
+    logger.info("Training all models with MLflow tracking.")
 
     models     = build_models()
     results    = {}
@@ -195,8 +180,8 @@ def train_all_models(X_train, X_test, y_train, y_test):
 
 
 def save_models(results, best_name, best_model):
-    """Save all models and metrics to disk"""
-    logger.info("Saving models and metrics...")
+    
+    logger.info("Saving models and metrics.")
     os.makedirs(MODELS_DIR, exist_ok=True)
 
     comparison_payload = {}
@@ -231,7 +216,7 @@ def save_models(results, best_name, best_model):
 
 
 def run_training():
-    """Train all models and save the best one."""
+    
     try:
         log_stage(logger, "MODEL TRAINING")
 
@@ -257,9 +242,9 @@ def run_training():
             # Save models
             save_models(results, best_name, best_model)
 
-        log_success(logger, "MODEL TRAINING COMPLETED ✅")
+        log_success(logger, "MODEL TRAINING COMPLETED")
         logger.info("   → Models saved to artifacts/models/")
-        logger.info("   → Ready for evaluate.py")
+        
 
     except Exception as e:
         log_error(logger, f"Training failed: {str(e)}")

@@ -6,7 +6,7 @@ A production-grade, end-to-end Machine Learning pipeline for predicting breast c
 
 ## Project Overview
 
-This project predicts whether a breast cancer patient will **Alive** or **Dead** based on clinical features such as age, tumor size, cancer stage, and hormone receptor status.
+This project predicts whether a breast cancer patient will be **Alive** or **Dead** based on clinical features such as age, tumor size, cancer stage, and hormone receptor status.
 
 The pipeline covers the full ML lifecycle:
 - Data ingestion and validation
@@ -70,12 +70,12 @@ The pipeline covers the full ML lifecycle:
 |---|---|
 | Language | Python 3.13 |
 | ML Models | XGBoost, Random Forest, Logistic Regression |
-| Experiment Tracking | MLflow |
+| Experiment Tracking | MLflow 3.11.1 |
 | Orchestration | Apache Airflow |
-| Monitoring | Evidently AI |
+| Monitoring | Evidently AI 0.7.21 |
 | API | FastAPI |
 | Frontend | Streamlit |
-| Database | MySQL + SQLAlchemy |
+| Database | MariaDB + SQLAlchemy |
 | Caching | Redis |
 | Containerization | Docker |
 
@@ -94,29 +94,37 @@ cd End-to-End-Breast-Cancer-Prediction-ML-Pipeline
 pip install -r requirements.txt
 ```
 
-### 3. Run the Training Pipeline
+### 3. Start Infrastructure (MariaDB + Redis)
+```bash
+docker-compose -f docker/docker-compose.yml up -d mariadb redis
+```
+
+### 4. Run the Training Pipeline
 ```bash
 python src/pipeline/training_pipeline.py
 ```
 
-### 4. Start the API
+### 5. Start the API
 ```bash
-cd api
-uvicorn app:app --reload --port 8000
+uvicorn api.app:app --reload --port 8000
 ```
 
-### 5. Start the Frontend
+### 6. Start the Frontend
 ```bash
-cd frontend
-streamlit run app.py
+streamlit run frontend/app.py
 ```
 
-### 6. Start MLflow UI
+### 7. Start MLflow UI
 ```bash
 mlflow ui --port 5000
 ```
 
-### 7. Start Airflow
+### 8. Run Monitoring
+```bash
+python monitoring/monitor.py
+```
+
+### 9. Start Airflow
 ```bash
 cd airflow
 airflow standalone
@@ -132,52 +140,62 @@ airflow standalone
 | Precision | 0.9060 |
 | Recall | 0.9280 |
 | F1 Score | 0.9165 |
-| ROC-AUC | — |
+| CV F1 Score | 0.8918 |
 
-**Best Model:** XGBoost
+**Best Model:** XGBoost  
+**Train size:** 4,641 samples  
+**Test size:** 1,161 samples  
+**Features selected:** 10
 
 ---
 
 ## Automated Pipeline (Airflow)
 
-| DAG | Schedule | Description |
-|---|---|---|
-| `breast_cancer_training_pipeline` | Weekly | Retrains and saves best model |
-| `breast_cancer_monitoring` | Daily | Checks for data drift and model performance |
+| DAG | Schedule | Tasks | Description |
+|---|---|---|---|
+| `breast_cancer_training_pipeline` | Weekly | 6 | Ingestion → Validation → Transformation → Feature Engineering → Training → Evaluation |
+| `breast_cancer_monitoring` | Daily | 4 | Run monitoring → Check drift → Trigger retraining or skip |
 
 ---
 
-## 📈 Monitoring (Evidently)
+## Monitoring (Evidently)
+
+Drift detection compares training data (reference) against live predictions from MariaDB, falling back to test data when fewer than 30 live predictions are available.
 
 Reports are saved to `artifacts/reports/`:
-- `data_drift_report.html` — Feature distribution drift
+- `data_drift_report.html` — Feature distribution drift across 12 columns
 - `classification_report.html` — Model performance report
 - `monitoring_dashboard.html` — Combined dashboard
 
 Open in browser:
-```
-file:///path/to/artifacts/reports/monitoring_dashboard.html
+```bash
+# After running monitor.py, the dashboard opens automatically.
+# Or open manually:
+firefox artifacts/reports/monitoring_dashboard.html
 ```
 
 ---
 
 ## Docker
 
+Starts MariaDB and Redis required by the pipeline:
 ```bash
-cd docker
-docker-compose up --build
+docker-compose -f docker/docker-compose.yml up -d mariadb redis
+```
+
+To stop:
+```bash
+docker-compose -f docker/docker-compose.yml down
 ```
 
 ---
 
-##  Dataset
+## Dataset
 
 - **Source:** SEER Breast Cancer Dataset
 - **Samples:** ~4,000 patients (after cleaning)
 - **Features:** Age, Race, Marital Status, Tumor Size, Stage, Hormone Status, Regional Nodes
 - **Target:** Survival Status (Alive / Dead)
+- **Class imbalance:** 15.3% minority class (handled via SMOTE in transformation)
 
 ---
-
-
-
