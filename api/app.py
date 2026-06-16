@@ -12,7 +12,7 @@ import pandas as pd
 
 from src.pipeline.prediction_pipeline import run_prediction_pipeline
 from src.logger.logger import get_logger
-from database.connection import get_engine
+
 
 logger = get_logger(__name__)
 
@@ -71,6 +71,7 @@ class PredictionResponse(BaseModel):
 def save_prediction(patient_data, result):
     """Save prediction result to MariaDB predictions table."""
     try:
+        from database.connection import get_engine
         engine = get_engine()
         record = {
             "age"                    : patient_data["age"],
@@ -162,8 +163,9 @@ def get_options():
 def get_predictions():
     """Returns all predictions from the database."""
     try:
+        from database.connection import get_engine
         engine = get_engine()
         df = pd.read_sql("SELECT * FROM predictions", engine)
         return df.to_dict(orient="records")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to fetch predictions: {str(e)}")
+        return []
