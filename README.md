@@ -8,6 +8,8 @@ A production-grade, end-to-end Machine Learning pipeline for predicting breast c
 
 This project predicts whether a breast cancer patient will be **Alive** or **Dead** based on clinical features such as age, tumor size, cancer stage, and hormone receptor status.
 
+## 🚀 Live Demo: https://end-to-end-breast-cancer-prediction-ml.onrender.com
+
 The pipeline covers the full ML lifecycle:
 - Data ingestion and validation
 - Feature engineering and transformation
